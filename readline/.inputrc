@@ -1,0 +1,5 @@
+set editing-mode vi
+set show-mode-in-prompt on
+set vi-ins-mode-string "\001\033[31m\002(i)\001\033[0m\002 "
+set vi-cmd-mode-string "\001\033[31m\002(c)\001\033[0m\002 "
+set keyseq-timeout 50
