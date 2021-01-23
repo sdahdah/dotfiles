@@ -7,6 +7,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'airblade/vim-gitgutter'
+Plug 'agude/vim-eldar'
 call plug#end()
 
 
@@ -27,8 +28,13 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
+" Reduce async update time for vim-gitgutter
+set updatetime=100
 " True colors
 set termguicolors
+" Set colour scheme and change highlight group of sign column
+colorscheme eldar
+highlight! link SignColumn LineNr
 
 " TaskJuggler comment string
 autocmd FileType tjp setlocal commentstring=#\ %s
