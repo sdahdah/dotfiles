@@ -42,6 +42,12 @@ export TERMINAL="termite"
 # Change pager to most
 # export PAGER="most"
 
+# Termite ctrl-shift-t
+source /etc/profile.d/vte.sh
+
+# fasd init
+eval "$(fasd --init auto)"
+
 # Bash prompt!
 
 # Tango/vim-eldar color paette, copy-pasted from terminal.sexy
@@ -126,9 +132,3 @@ PS1='\[${cbracket}\][\
 \[${cbracket}\]]\
 \[${cgit}\]$(_parse_git_branch)\
 \[${cnorm}\] $ '
-
-# Termite ctrl-shift-t
-source /etc/profile.d/vte.sh
-
-# fasd init
-eval "$(fasd --init auto)"
