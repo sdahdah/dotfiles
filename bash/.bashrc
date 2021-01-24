@@ -48,41 +48,7 @@ source /etc/profile.d/vte.sh
 # fasd init
 eval "$(fasd --init auto)"
 
-# Bash prompt!
-
-# Tango/vim-eldar color paette, copy-pasted from terminal.sexy
-# http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Color_Palette
-# special
-foreground='#babdb6'
-foreground_bold='#babdb6'
-cursor='#babdb6'
-background='#000000'
-# black
-color0='#2e3436'
-color8='#555753'
-# red
-color1='#cc0000'
-color9='#ef2929'
-# green
-color2='#4e9a06'
-color10='#8ae234'
-# yellow
-color3='#c4a000'
-color11='#fce94f'
-# blue
-color4='#3465a4'
-color12='#729fcf'
-# magenta
-color5='#75507b'
-color13='#ad7fa8'
-# cyan
-color6='#06989a'
-color14='#34e2e2'
-# white
-color7='#d3d7cf'
-color15='#eeeeec'
-
-# Fancy bash prompt with git branch
+# Git branch
 _parse_git_branch () {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
@@ -103,32 +69,19 @@ _dir_chomp () {
     echo ${b/\/~/\~}${b+/}$p
 }
 
-# Colour format conversion
-# https://stackoverflow.com/questions/7253235/convert-hexadecimal-color-to-decimal-rgb-values-in-unix-shell-script
-_hex_to_rgb () {
-    printf "%d;%d;%d\n" 0x${1:1:2} 0x${1:3:2} 0x${1:5:2}
-}
-
-# Colour code generation
-# https://superuser.com/questions/1220633/true-colors-in-bash-prompt
-_color_code () {
-    printf "\x1b[38;2;$(_hex_to_rgb $1)m"
-}
-
-
 # Colours to use in prompt
-creset=$(printf '\x1b[0m')
-cbracket="$(tput bold)$(_color_code ${color6})"
-cname="$(tput bold)$(_color_code ${color4})"
-cdir="$(tput bold)$(_color_code ${color2})"
-cgit="$(tput bold)$(_color_code ${color3})"
-cnorm="$(tput sgr0)$(_color_code ${color7})"
+creset="$(tput sgr0)"
+cbracket="$(tput bold)$(tput setaf 14)"
+cname="$(tput bold)$(tput setaf 12)"
+cdir="$(tput bold)$(tput setaf 10)"
+cgit="$(tput bold)$(tput setaf 11)"
+cpunct="$(tput sgr0)$(tput setaf 7)"
 
 # Set prompt
 PS1='\[${cbracket}\][\
 \[${cname}\]\u@\h\
-\[${cnorm}\]:\
+\[${cpunct}\]:\
 \[${cdir}\]$(_dir_chomp "$(pwd)" 20)\
 \[${cbracket}\]]\
 \[${cgit}\]$(_parse_git_branch)\
-\[${cnorm}\] $ '
+\[${cpunct}\] $ \[${creset}\]'

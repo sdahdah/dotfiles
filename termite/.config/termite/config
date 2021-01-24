@@ -1,7 +1,7 @@
 [options]
 font = IBM Plex Mono 11
 allow_bold = true
-bold_is_bright = true
+bold_is_bright = false
 clickable_url = true
 dynamic_title = true
 icon_name = terminal
@@ -9,8 +9,10 @@ icon_name = terminal
 [colors]
 # http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Color_Palette
 # special
-foreground      = #babdb6
-foreground_bold = #babdb6
+foreground      = #ffffff
+foreground_bold = #ffffff
+# foreground      = #babdb6
+# foreground_bold = #babdb6
 cursor          = #babdb6
 background      = #000000
 # black
