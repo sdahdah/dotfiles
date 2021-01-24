@@ -1,5 +1,14 @@
+# https://stackoverflow.com/questions/7888387/the-way-to-distinguish-command-mode-and-insert-mode-in-bashs-vi-command-line-ed/32614367
+
+# Use vi mode
 set editing-mode vi
 set show-mode-in-prompt on
-set vi-ins-mode-string "\001\033[31m\002(i)\001\033[0m\002 "
-set vi-cmd-mode-string "\001\033[31m\002(c)\001\033[0m\002 "
 set keyseq-timeout 50
+
+# Use cursor to indicate mode
+set vi-ins-mode-string \1\e[6 q\2
+set vi-cmd-mode-string \1\e[2 q\2
+
+# Change cursor to block while command is executing
+set keymap vi-insert
+RETURN: "\e\n"

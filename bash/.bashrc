@@ -42,13 +42,102 @@ export TERMINAL="termite"
 # Change pager to most
 # export PAGER="most"
 
+# Bash prompt!
+
+# Tango/vim-eldar color paette, copy-pasted from terminal.sexy
+# http://tango.freedesktop.org/Tango_Icon_Theme_Guidelines#Color_Palette
+# special
+foreground='#babdb6'
+foreground_bold='#babdb6'
+cursor='#babdb6'
+background='#000000'
+# black
+color0='#2e3436'
+color8='#555753'
+# red
+color1='#cc0000'
+color9='#ef2929'
+# green
+color2='#4e9a06'
+color10='#8ae234'
+# yellow
+color3='#c4a000'
+color11='#fce94f'
+# blue
+color4='#3465a4'
+color12='#729fcf'
+# magenta
+color5='#75507b'
+color13='#ad7fa8'
+# cyan
+color6='#06989a'
+color14='#34e2e2'
+# white
+color7='#d3d7cf'
+color15='#eeeeec'
+
 # Fancy bash prompt with git branch
-parse_git_branch() {
+_parse_git_branch () {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
-PS1='\[\033[36m\][\[\033[m\]\[\033[34m\]\u@\h\[\033[m\]:\[\033[32m\]\W\[\033[m\]\[\033[36m\]]\[\033[33m\]$(parse_git_branch)\[\033[00m\] $ '
 
-# For termite ctrl-shift-t
+# Directory shortener
+# https://stackoverflow.com/questions/3497885/code-challenge-bash-prompt-path-shortener
+_dir_chomp () {
+    local p=${1/#$HOME/\~} b s
+    s=${#p}
+    while [[ $p != "${p//\/}" ]]&&(($s>$2))
+    do
+        p=${p#/}
+        [[ $p =~ \.?. ]]
+        b=$b/${BASH_REMATCH[0]}
+        p=${p#*/}
+        ((s=${#b}+${#p}))
+    done
+    echo ${b/\/~/\~}${b+/}$p
+}
+
+# Colour format conversion
+# https://stackoverflow.com/questions/7253235/convert-hexadecimal-color-to-decimal-rgb-values-in-unix-shell-script
+_hex_to_rgb () {
+    printf "%d;%d;%d\n" 0x${1:1:2} 0x${1:3:2} 0x${1:5:2}
+}
+
+# Colour code generation
+# https://superuser.com/questions/1220633/true-colors-in-bash-prompt
+_color_code () {
+    printf "\x1b[38;2;$(_hex_to_rgb $1)m"
+}
+
+
+# Colours to use in prompt
+creset=$(printf '\x1b[0m')
+cbracket="$(tput bold)$(_color_code ${color6})"
+cname="$(tput bold)$(_color_code ${color4})"
+cdir="$(tput bold)$(_color_code ${color2})"
+cgit="$(tput bold)$(_color_code ${color3})"
+cnorm="$(tput sgr0)$(_color_code ${color7})"
+
+# cbracket="$(tput bold) $(_color_code ${color6})"
+# your PS1 prompt.  configure as desired
+# PS1='\[\033[1;36m\][\[\033[m\]\[\033[1;36m\]\u@\h\[\033[m\]:\[\033[1;32m\]\W\[\033[m\]\[\033[1;36m\]]\[\033[1;33m\]$(_parse_git_branch)\[\033[0;37m\] $ '
+# PS1='\[\033[36m\][\[\033[m\]\[\033[34m\]\u@\h\[\033[m\]:\[\033[32m\]\W\[\033[m\]\[\033[36m\]]\[\033[33m\]$(_parse_git_branch)\[\033[00m\] $ '
+
+# PS1='\[$(tput setaf 4)\][\u@\h:$(_dir_chomp "$(pwd)" 20)]$(_parse_git_branch) $ '
+# PS1='\[${cname}\]\u@\h\[${crst}\]:\[${cdir}\]\w\[${crst}\]\$ '
+# PS1='\[${}\][\u@\h:$(_dir_chomp "$(pwd)" 20)]$(_parse_git_branch) $ '
+# PS1='\[${cname}\]\u@\h\[${crst}\]:\[${cdir}\]\w\[${crst}\]\$ '
+
+PS1='\[${cbracket}\][\
+\[${cname}\]\u@\h\
+\[${cnorm}\]:\
+\[${cdir}\]$(_dir_chomp "$(pwd)" 20)\
+\[${cbracket}\]]\
+\[${cgit}\]$(_parse_git_branch)\
+\[${cnorm}\] $ '
+
+# Termite ctrl-shift-t
 source /etc/profile.d/vte.sh
 
+# fasd init
 eval "$(fasd --init auto)"
