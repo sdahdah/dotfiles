@@ -118,16 +118,7 @@ cdir="$(tput bold)$(_color_code ${color2})"
 cgit="$(tput bold)$(_color_code ${color3})"
 cnorm="$(tput sgr0)$(_color_code ${color7})"
 
-# cbracket="$(tput bold) $(_color_code ${color6})"
-# your PS1 prompt.  configure as desired
-# PS1='\[\033[1;36m\][\[\033[m\]\[\033[1;36m\]\u@\h\[\033[m\]:\[\033[1;32m\]\W\[\033[m\]\[\033[1;36m\]]\[\033[1;33m\]$(_parse_git_branch)\[\033[0;37m\] $ '
-# PS1='\[\033[36m\][\[\033[m\]\[\033[34m\]\u@\h\[\033[m\]:\[\033[32m\]\W\[\033[m\]\[\033[36m\]]\[\033[33m\]$(_parse_git_branch)\[\033[00m\] $ '
-
-# PS1='\[$(tput setaf 4)\][\u@\h:$(_dir_chomp "$(pwd)" 20)]$(_parse_git_branch) $ '
-# PS1='\[${cname}\]\u@\h\[${crst}\]:\[${cdir}\]\w\[${crst}\]\$ '
-# PS1='\[${}\][\u@\h:$(_dir_chomp "$(pwd)" 20)]$(_parse_git_branch) $ '
-# PS1='\[${cname}\]\u@\h\[${crst}\]:\[${cdir}\]\w\[${crst}\]\$ '
-
+# Set prompt
 PS1='\[${cbracket}\][\
 \[${cname}\]\u@\h\
 \[${cnorm}\]:\
