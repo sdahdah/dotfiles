@@ -8,6 +8,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'airblade/vim-gitgutter'
 Plug 'agude/vim-eldar'
+Plug 'chrisbra/Colorizer'
 call plug#end()
 
 
