@@ -13,8 +13,16 @@ Plug 'chrisbra/Colorizer'
 Plug 'lervag/vimtex'
     let g:vimtex_view_method = 'zathura'
 Plug 'dense-analysis/ale'
+    let g:ale_echo_msg_format="[%linter% %code%] %s"
 Plug 'jpalardy/vim-slime'
     let g:slime_target = "dtach"
+Plug 'vim-python/python-syntax'
+    let g:python_highlight_all = 1
+    let g:python_highlight_indent_errors = 0
+    let g:python_highlight_space_errors = 0
+" Plug 'jeetsukumaran/vim-pythonsense'  " Motions
+" Plug 'Vimjas/vim-python-pep8-indent'  " Special indent rules
+" Plug 'ludovicchabant/vim-gutentags'  " Tags
 call plug#end()
 
 " Window title
