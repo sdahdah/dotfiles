@@ -1,5 +1,6 @@
 call plug#begin(stdpath('data') . '/plugged')
 Plug 'tpope/vim-commentary'
+    autocmd FileType tjp setlocal commentstring=#\ %s
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -7,11 +8,17 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'airblade/vim-gitgutter'
-Plug 'agude/vim-eldar'
+Plug 'sdahdah/vim-eldar'
 Plug 'chrisbra/Colorizer'
+Plug 'lervag/vimtex'
+    let g:vimtex_view_method = 'zathura'
+Plug 'dense-analysis/ale'
+Plug 'jpalardy/vim-slime'
+    let g:slime_target = "dtach"
 call plug#end()
 
-
+" Window title
+set title
 " Line numbers
 set number
 " 80 Character limit
@@ -33,9 +40,5 @@ set expandtab
 set updatetime=100
 " True colors
 set termguicolors
-" Set colour scheme and change highlight group of sign column
+" Set colour scheme
 colorscheme eldar
-highlight! link SignColumn LineNr
-
-" TaskJuggler comment string
-autocmd FileType tjp setlocal commentstring=#\ %s
