@@ -6,7 +6,8 @@ tresorit --hidden &
 cbatticon &
 nm-applet &
 pasystray &
-redshift-gtk &
+# redshift-gtk &
+redshift -l 45.5017:-73.5673 &  # Workaround for geoclue
 xfce4-clipman &
 # xcompmgr -c -r 0 -o 100 &
 caffeine &
