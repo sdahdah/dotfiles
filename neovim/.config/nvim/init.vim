@@ -41,6 +41,7 @@ Plug 'w0ng/vim-hybrid'
 Plug 'trapd00r/neverland-vim-theme'
 Plug 'lodestone/lodestone.vim'
 Plug 'mrkn/mrkn256.vim'
+Plug 'vim-scripts/synic.vim'
 
 call plug#end()
 
