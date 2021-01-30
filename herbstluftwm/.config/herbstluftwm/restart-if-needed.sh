@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-pkill -f .config/herbstluftwm/hook_panel.sh
+pkill -f .config/herbstluftwm/panel.sh
 killall stalonetray
 
 feh --bg-tile ~/Pictures/Wallpaper/pattern_146.gif ~/Pictures/Wallpaper/pattern_146.gif
 
 # find the panel
-panel=~/.config/herbstluftwm/hook_panel.sh
+panel=~/.config/herbstluftwm/panel.sh
 # panel=~/.config/herbstluftwm/panel.sh
 [ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do

@@ -1,194 +1,259 @@
-#!/usr/bin/env bash
+# https://www.reddit.com/r/unixporn/comments/4u0onh/discovery_super_responsive_lemonbar_on/
 
-quote() {
-	local q="$(printf '%q ' "$@")"
-	printf '%s' "${q% }"
-}
+# TODO: Moving window to other workspace does not trigger workspace update!!!
 
-hc_quoted="$(quote "${herbstclient_command[@]:-herbstclient}")"
-hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
 monitor=${1:-0}
-geometry=( $(hc monitor_rect "$monitor") )
+geometry=( $(herbstclient monitor_rect "$monitor") )
 if [ -z "$geometry" ] ;then
     echo "Invalid monitor $monitor"
     exit 1
 fi
-# geometry has the format W H X Y
 x=${geometry[0]}
 y=${geometry[1]}
 panel_width=${geometry[2]}
-panel_height=16
-# font="-*-fixed-medium-*-*-*-12-*-*-*-*-*-*-*"
-# font="-*-fixed-*-*-*-*-*-*-*-*-*-*-*-*"
-font="-misc-inputmono-medium-r-normal--0-0-0-0-m-0-*-*"
-
-# -misc-liberation serif-medium-r-normal--0-90-0-0-p-0-iso8859-1
-
-bgcolor=$(hc get frame_border_normal_color)
-selbg=$(hc get window_border_active_color)
+panel_height=22
 selfg='#101010'
+bgcolor=$(herbstclient get frame_border_normal_color)
+selbg=$(herbstclient get window_border_active_color)
+sep="%{F$selbg}|%{F-}"
+wnd_title=`herbstclient get_attr clients.focus.title | cut -c 1-80`
 
-####
-# Try to find textwidth binary.
-# In e.g. Ubuntu, this is named dzen2-textwidth.
-if which textwidth &> /dev/null ; then
-    textwidth="textwidth";
-elif which dzen2-textwidth &> /dev/null ; then
-    textwidth="dzen2-textwidth";
-elif which xftwidth &> /dev/null ; then # For guix
-    textwidth="xtfwidth";
-else
-    echo "This script requires the textwidth tool of the dzen2 project."
-    exit 1
-fi
-####
-# true if we are using the svn version of dzen2
-# depending on version/distribution, this seems to have version strings like
-# "dzen-" or "dzen-x.x.x-svn"
-if dzen2 -v 2>&1 | head -n 1 | grep -q '^dzen-\([^,]*-svn\|\),'; then
-    dzen2_svn="true"
-else
-    dzen2_svn=""
-fi
+function getsplit() {
+    local rawsplit=`herbstclient layout | awk '/FOCUS/{print $2}' | rev | cut -c 2- | rev`
+    # local rawsplit=`herbstclient get_attr tags.focus.tiling.root.split_mode`
+    case $rawsplit in
+        'horizontal')
+            # echo -e -n "[H]"
+            # echo -e -n "\ufc26"
+            # echo -e -n "\uf5c9"
+            # echo -e -n "\ufb1f"
+            echo -n ""
+            ;;
+        'vertical')
+            # echo -e -n "[V]"
+            # echo -e -n "\ufc27"
+            # echo -e -n "\uf5d1"
+            # echo -e -n "\ufb20"
+            echo -n "響"
+            ;;
+        'grid')
+            # echo -e -n "[G]"
+            # echo -e -n "\ufa6f"
+            # echo -e -n "\uf5ca"
+            # echo -e -n "\ufc56"
+            # echo -e -n "\ufa6d"
+            # echo -e -n "\uf5c6"
+            echo -n "﩯"
+            ;;
+        'max')
+            # echo -e -n "[M]"
+            # echo -e -n "\ufa6a"
+            # echo -e -n "\uf5cd"
+            # echo -e -n "\ue25d"
+            # echo -n ""
+            # echo -n ""
+            # echo -n ""
+            # echo -n ""
+            echo -n "ﱢ"
+            # echo -n "ﱡ"
+            # echo -e -n "\ufc61"
+            ;;
+    esac
+}
 
-if awk -Wv 2>/dev/null | head -1 | grep -q '^mawk'; then
-    # mawk needs "-W interactive" to line-buffer stdout correctly
-    # http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=593504
-    uniq_linebuffered() {
-      awk -W interactive '$0 != l { print ; l=$0 ; fflush(); }' "$@"
-    }
-else
-    # other awk versions (e.g. gawk) issue a warning with "-W interactive", so
-    # we don't want to use it there.
-    uniq_linebuffered() {
-      awk '$0 != l { print ; l=$0 ; fflush(); }' "$@"
-    }
-fi
+split=$(getsplit)
 
-hc pad $monitor $panel_height
+# Find a better way to do this
+wm_infos=""
+TAGS=( $(herbstclient tag_status $monitor) )
+for i in "${TAGS[@]}" ; do
+    case ${i:0:1} in
+        '#')
+            BG=$selbg
+            FG=$selfg
+            ;;
+        '+')
+            BG="#9CA668"
+            FG="#141414"
+            ;;
+        ':')
+            BG=""
+            FG="#ffffff"
+            ;;
+        '!')
+            BG="#FF0675"
+            FG="#141414"
+            ;;
+        '-')
+            BG=""
+            FG=$selbg
+            ;;
+        *)
+            BG=""
+            FG="#ababab"
+            ;;
+    esac
+    ICON="%{A:herbstclient focus_monitor $monitor && herbstclient use ${i:1:2}:} ${i:1:2} %{A}"
+    wm_infos="${wm_infos}%{F${FG}}%{B${BG}}${ICON}%{F-}%{B-}"
+shift
+done
 
-{
-    ### Event generator ###
-    # based on different input data (mpc, date, hlwm hooks, ...) this generates events, formed like this:
-    #   <eventname>\t<data> [...]
-    # e.g.
-    #   date    ^fg(#efefef)18:33^fg(#909090), 2013-10-^fg(#efefef)29
+# Format the Panel
+herbstclient -i |
+while read line; do
 
-    #mpc idleloop player &
-    while true ; do
-        # "date" output is checked once a second, but an event is only
-        # generated if the output changed compared to the previous run.
-        date +$'date\t^fg(#efefef)%H:%M^fg(#909090), %Y-%m-^fg(#efefef)%d'
-        sleep 1 || break
-    done > >(uniq_linebuffered) &
-    childpid=$!
-    hc --idle
-    kill $childpid
-} 2> /dev/null | {
-    IFS=$'\t' read -ra tags <<< "$(hc tag_status $monitor)"
-    visible=true
-    date=""
-    windowtitle=""
-    while true ; do
+    case $line in
+    layout_changed*)
+        # split=`herbstclient layout | awk '/FOCUS/{print $2}' | rev | cut -c 2- | rev`
+        split=$(getsplit)
+        ;;
 
-        ### Output ###
-        # This part prints dzen data based on the _previous_ data handling run,
-        # and then waits for the next event to happen.
+    window_title_changed*)
+        wnd_title=`echo $line | awk '{$1=$2=""; print $0}' | cut -c 3-80`
+        # split=`herbstclient layout | awk '/FOCUS/{print $2}' | rev | cut -c 2- | rev`
+        split=$(getsplit)
+        ;;
 
-        separator="^bg()^fg($selbg)|"
-        # draw tags
-        for i in "${tags[@]}" ; do
+    focus_changed*)
+        wnd_title=`echo $line | awk '{$1=$2=""; print $0}' | cut -c 3-80`
+        # split=`herbstclient layout | awk '/FOCUS/{print $2}' | rev | cut -c 2- | rev`
+        split=$(getsplit)
+        # Copy-pasted
+        wm_infos=""
+        TAGS=( $(herbstclient tag_status $monitor) )
+        for i in "${TAGS[@]}" ; do
             case ${i:0:1} in
                 '#')
-                    echo -n "^bg($selbg)^fg($selfg)"
+                    BG=$selbg
+                    FG=$selfg
                     ;;
                 '+')
-                    echo -n "^bg(#9CA668)^fg(#141414)"
+                    BG="#9CA668"
+                    FG="#141414"
                     ;;
                 ':')
-                    echo -n "^bg()^fg(#ffffff)"
+                    BG=""
+                    FG="#ffffff"
                     ;;
                 '!')
-                    echo -n "^bg(#FF0675)^fg(#141414)"
+                    BG="#FF0675"
+                    FG="#141414"
+                    ;;
+                '-')
+                    BG=""
+                    FG=$selbg
                     ;;
                 *)
-                    echo -n "^bg()^fg(#ababab)"
+                    BG=""
+                    FG="#ababab"
                     ;;
             esac
-            if [ ! -z "$dzen2_svn" ] ; then
-                # clickable tags if using SVN dzen
-                echo -n "^ca(1,$hc_quoted focus_monitor \"$monitor\" && "
-                echo -n "$hc_quoted use \"${i:1}\") ${i:1} ^ca()"
-            else
-                # non-clickable tags if using older dzen
-                echo -n " ${i:1} "
-            fi
+            ICON="%{A:herbstclient focus_monitor $monitor && herbstclient use ${i:1:2}:} ${i:1:2} %{A}"
+            wm_infos="${wm_infos}%{F${FG}}%{B${BG}}${ICON}%{F-}%{B-}"
         done
-        echo -n "$separator"
-        echo -n "^bg()^fg() ${windowtitle//^/^^}"
-        # small adjustments
-        right="$separator^bg() $date $separator^bg()"
-        right_text_only=$(echo -n "$right" | sed 's.\^[^(]*([^)]*)..g')
-        # get width of right aligned text.. and add some space..
-        width=$($textwidth "$font" "$right_text_only")
-        echo -n "^pa($(($panel_width - $width)))$right"
-        echo
+        ;;
 
-        ### Data handling ###
-        # This part handles the events generated in the event loop, and sets
-        # internal variables based on them. The event and its arguments are
-        # read into the array cmd, then action is taken depending on the event
-        # name.
-        # "Special" events (quit_panel/togglehidepanel/reload) are also handled
-        # here.
+    tag_changed*)
+        # split=`herbstclient layout | awk '/FOCUS/{print $2}' | rev | cut -c 2- | rev`
+        split=$(getsplit)
+        wm_infos=""
+        TAGS=( $(herbstclient tag_status $monitor) )
+        for i in "${TAGS[@]}" ; do
+        # if [[ $i != *8 ]]; then
+            case ${i:0:1} in
+                '#')
+                    BG=$selbg
+                    FG=$selfg
+                    ;;
+                '+')
+                    BG="#9CA668"
+                    FG="#141414"
+                    ;;
+                ':')
+                    BG=""
+                    FG="#ffffff"
+                    ;;
+                '!')
+                    BG="#FF0675"
+                    FG="#141414"
+                    ;;
+                '-')
+                    BG=""
+                    FG=$selbg
+                    ;;
+                *)
+                    BG=""
+                    FG="#ababab"
+                    ;;
+            esac
+            ICON="%{A:herbstclient focus_monitor $monitor && herbstclient use ${i:1:2}:} ${i:1:2} %{A}"
+            wm_infos="${wm_infos}%{F${FG}}%{B${BG}}${ICON}%{F-}%{B-}"
+        # fi
+        shift
+        done
+        ;;
 
-        # wait for next event
-        IFS=$'\t' read -ra cmd || break
-        # find out event origin
-        case "${cmd[0]}" in
-            tag*)
-                #echo "resetting tags" >&2
-                IFS=$'\t' read -ra tags <<< "$(hc tag_status $monitor)"
-                ;;
-            date)
-                #echo "resetting date" >&2
-                date="${cmd[@]:1}"
-                ;;
-            quit_panel)
-                exit
-                ;;
-            togglehidepanel)
-                currentmonidx=$(hc list_monitors | sed -n '/\[FOCUS\]$/s/:.*//p')
-                if [ "${cmd[1]}" -ne "$monitor" ] ; then
-                    continue
-                fi
-                if [ "${cmd[1]}" = "current" ] && [ "$currentmonidx" -ne "$monitor" ] ; then
-                    continue
-                fi
-                echo "^togglehide()"
-                if $visible ; then
-                    visible=false
-                    hc pad $monitor 0
-                else
-                    visible=true
-                    hc pad $monitor $panel_height
-                fi
-                ;;
-            reload)
-                exit
-                ;;
-            focus_changed|window_title_changed)
-                windowtitle="${cmd[@]:2}"
-                ;;
-            #player)
-            #    ;;
-        esac
+
+    # REFRESH_PANEL*BIG*)
+    #     mail_=$(~/.mutt/new_mail.sh 2> /dev/null)
+    #     t_="\ue015 "$(date +"%l:%M" | sed 's/ //')
+    #     batt_="  $(~/run/herbstluftwm/panel-scripts/battery.sh) "
+    # # ...
+    #     ;;
+
+
+    # REFRESH_PANEL*SMALL*)
+    #     wifi_=`~/run/herbstluftwm/panel-scripts/wireless.sh`
+
+    #     if [[ `mpc status | grep playing` != "" ]]; then
+    #     mpc_=" \uE0EC "
+    #     else
+    #     mpc_=""
+    #     fi
+    #     ;;
+    # esac
+
+
+    REFRESH_PANEL*BIG*)
+        # t_="\ue015 "$(date +"%{F#efefef}%H:%M%{F#909090},  %Y-%m-%{F#efefef}%d" | sed 's/ //')
+        # t_=$(date +"%{F#efefef}%H:%M:%S%{F#909090}, %Y-%m-%{F#efefef}%d")
+        # time=$(date +"%{F#efefef}%H:%M%{F#909090}, %Y-%m-%{F#efefef}%d")
+        time=$(date +"%{F#909090}%Y-%m-%{F#efefef}%d, %H:%M")
+        ;;
+
+
+    REFRESH_PANEL*SMALL*)
+        ;;
+    esac
+
+    echo -e "%{l}${wm_infos} ${sep} ${split} ${wnd_title}%{r}${sep} \uf5ef ${time} ${sep} "
+
+done | lemonbar -B "#ff000000" \
+                -o -5 \
+                -f "IBM Plex Mono Text:style=Text,Regular:size=10" \
+                -o 0 \
+                -f "BlexMono Nerd Font Mono:style=Text,Regular:size=14" \
+                -g "${panel_width}x${panel_height}+${x}+${y}" 2> /dev/null | sh &
+                # -f "Symbols Nerd Font:style=2048-em" \
+
+# -f "Source Code Pro:style=Regular:size=10" \
+# -f "Symbols Nerd Font:style=1000-em:size=10" \
+# done | lemonbar -B "#ff000000" \
+#                 -o -5 \
+#                 -f "IBM Plex Mono Text:style=Text,Regular:size=10" \
+#                 -o 0 \
+#                 -f "BlexMono Nerd Font Mono:style=Text,Regular:size=16" \
+#                 -g "${panel_width}x${panel_height}+${x}+${y}" 2> /dev/null | sh &
+
+
+# Emit hooks to keep it updating
+while true; do
+    herbstclient emit_hook REFRESH_PANEL BIG
+    for i in {1..10}; do
+    herbstclient emit_hook REFRESH_PANEL SMALL
+    sleep 1
     done
+done
+# done &
 
-    ### dzen2 ###
-    # After the data is gathered and processed, the output of the previous block
-    # gets piped to dzen2.
-
-} 2> /dev/null | dzen2 -w $panel_width -x $x -y $y -fn "$font" -h $panel_height \
-    -e "button3=;button4=exec:$hc_quoted use_index -1;button5=exec:$hc_quoted use_index +1" \
-    -ta l -bg "$bgcolor" -fg '#efefef'
+# herbstclient layout | awk '/FOCUS/{print $2}' | rev | cut -c 2- | rev
