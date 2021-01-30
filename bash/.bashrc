@@ -70,11 +70,20 @@ _dir_chomp () {
 }
 
 # Colours to use in prompt
+# Tango
+# creset="$(tput sgr0)"
+# cbracket="$(tput bold)$(tput setaf 14)"
+# cname="$(tput bold)$(tput setaf 12)"
+# cdir="$(tput bold)$(tput setaf 10)"
+# cgit="$(tput bold)$(tput setaf 11)"
+# cpunct="$(tput sgr0)$(tput setaf 7)"
+
+# Lucid 4
 creset="$(tput sgr0)"
-cbracket="$(tput bold)$(tput setaf 14)"
-cname="$(tput bold)$(tput setaf 12)"
-cdir="$(tput bold)$(tput setaf 10)"
-cgit="$(tput bold)$(tput setaf 11)"
+cbracket="$(tput sgr0)$(tput setaf 7)"
+cname="$(tput sgr0)$(tput setaf 4)"
+cdir="$(tput sgr0)$(tput setaf 2)"
+cgit="$(tput sgr0)$(tput setaf 1)"
 cpunct="$(tput sgr0)$(tput setaf 7)"
 
 # Set prompt
