@@ -7,7 +7,6 @@ feh --bg-tile ~/Pictures/Wallpaper/pattern_146.gif ~/Pictures/Wallpaper/pattern_
 
 # find the panel
 panel=~/.config/herbstluftwm/panel.sh
-# panel=~/.config/herbstluftwm/panel.sh
 [ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     # start it on each monitor
