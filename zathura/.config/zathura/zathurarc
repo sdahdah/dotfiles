@@ -1,35 +1,35 @@
-# Base16 Default Dark
-# Author: Chris Kempson (http://chriskempson.com)
+# Colours
+# Based on vim-colors-lucid
 
-set default-bg                  "#000000"
-set default-fg                  "#2e3436"
+set default-bg                  "#0f0c14"
+set default-fg                  "#e4e0ed"
 
-set statusbar-fg                "#babdb6"
-set statusbar-bg                "#2e3436"
+set statusbar-fg                "#e4e0ed"
+set statusbar-bg                "#181320"
 
-set inputbar-bg                 "#000000"
-set inputbar-fg                 "#ffffff"
+set inputbar-bg                 "#0f0c14"
+set inputbar-fg                 "#e4e0ed"
 
-set notification-bg             "#000000"
-set notification-fg             "#ffffff"
+set notification-bg             "#0f0c14"
+set notification-fg             "#e4e0ed"
 
-set notification-error-bg       "#000000"
-set notification-error-fg       "#cc0000"
+set notification-error-bg       "#0f0c14"
+set notification-error-fg       "#db0088"
 
-set notification-warning-bg     "#000000"
-set notification-warning-fg     "#cc0000"
+set notification-warning-bg     "#0f0c14"
+set notification-warning-fg     "#db0088"
 
-set highlight-color             "#fce94f"
-set highlight-active-color      "#3465a4"
+set highlight-color             "#fde9a2"
+set highlight-active-color      "#83a8d1"
 
-set completion-bg               "#2e3436"
-set completion-fg               "#3465a4"
+set completion-bg               "#181320"
+set completion-fg               "#83a8d1"
 
-set completion-highlight-fg     "#ffffff"
-set completion-highlight-bg     "#3465a4"
+set completion-highlight-fg     "#e4e0ed"
+set completion-highlight-bg     "#83a8d1"
 
-set recolor-lightcolor          "#000000"
-set recolor-darkcolor           "#babdb6"
+set recolor-lightcolor          "#0f0c14"
+set recolor-darkcolor           "#e4e0ed"
 
 # Settings
 
