@@ -22,11 +22,11 @@ Plug 'vim-python/python-syntax'
 " Plug 'jeetsukumaran/vim-pythonsense'  " Motions
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'ludovicchabant/vim-gutentags'
-" Plug 'nathanaelkane/vim-indent-guides'
-"     let g:indent_guides_enable_on_vim_startup = 1
-"     let g:indent_guides_start_level = 2
-"     let g:indent_guides_guide_size = 1
-"     let g:indent_guides_auto_colors = 0
+Plug 'nathanaelkane/vim-indent-guides'
+    let g:indent_guides_enable_on_vim_startup = 1
+    let g:indent_guides_start_level = 2
+    let g:indent_guides_guide_size = 1
+    let g:indent_guides_auto_colors = 0
 " Colorschemes
 Plug 'agude/vim-eldar'
 Plug 'cseelus/vim-colors-lucid'
@@ -83,3 +83,9 @@ colorscheme lucid
 " " highlight IndentGuidesOdd guibg='#2E3435'
 " " highlight IndentGuidesEven guibg='#2E3435'
 " highlight MatchParen gui=underline guibg=none
+" Lucid overrides
+highlight! link ColorColumn CursorLine
+highlight! link IndentGuidesOdd CursorLine
+highlight! link IndentGuidesEven CursorLine
+" To change in color scheme:
+" let colorgroup['MatchParen']   = {"GUIFG": _pink, "GUIBG":  _rock_dark}
