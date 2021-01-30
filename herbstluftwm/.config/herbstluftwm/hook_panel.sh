@@ -113,10 +113,44 @@ while read line; do
         # split=`herbstclient layout | awk '/FOCUS/{print $2}' | rev | cut -c 2- | rev`
         split=$(getsplit)
         ;;
+
     focus_changed*)
         wnd_title=`echo $line | awk '{$1=$2=""; print $0}' | cut -c 3-80`
         # split=`herbstclient layout | awk '/FOCUS/{print $2}' | rev | cut -c 2- | rev`
         split=$(getsplit)
+        # Copy-pasted
+        wm_infos=""
+        TAGS=( $(herbstclient tag_status $monitor) )
+        for i in "${TAGS[@]}" ; do
+            case ${i:0:1} in
+                '#')
+                    BG=$selbg
+                    FG=$selfg
+                    ;;
+                '+')
+                    BG="#9CA668"
+                    FG="#141414"
+                    ;;
+                ':')
+                    BG=""
+                    FG="#ffffff"
+                    ;;
+                '!')
+                    BG="#FF0675"
+                    FG="#141414"
+                    ;;
+                '-')
+                    BG=""
+                    FG=$selbg
+                    ;;
+                *)
+                    BG=""
+                    FG="#ababab"
+                    ;;
+            esac
+            ICON="%{A:herbstclient focus_monitor $monitor && herbstclient use ${i:1:2}:} ${i:1:2} %{A}"
+            wm_infos="${wm_infos}%{F${FG}}%{B${BG}}${ICON}%{F-}%{B-}"
+        done
         ;;
 
     tag_changed*)
