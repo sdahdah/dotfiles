@@ -12,9 +12,11 @@ icon_name = terminal
 # special
 foreground      = #e4e0ed
 foreground_bold = #e4e0ed
-background      = #0f0c14
+background      = #0b0a0b
+# background      = #0f0c14
 # black
-color0  = #0f0c14
+color0  = #0b0a0b
+# color0  = #0f0c14
 color8  = #36323d
 # red
 color1  = #db0088
@@ -37,5 +39,37 @@ color14 = #b3e4eb
 # white
 color7  = #beb8cc
 color15 = #e4e0ed
+
+# [colors]
+# # Based on AutumnLeaf
+# # Don't set a colour for cursor or it will not invert the character under it!
+# # special
+# foreground      = #000000
+# foreground_bold = #000000
+# background      = #fffdfa
+# # black
+# color0  = #000000
+# color8  = #333333
+# # red
+# color1  = #aa0000
+# color9  = #cc0000
+# # green
+# color2  = #228877
+# color10 = #558811
+# # yellow
+# color3  = #aa8866
+# color11 = #ffeebb
+# # blue
+# color4  = #003399
+# color12 = #0055aa
+# # magenta
+# color5  = #990099
+# color13 = #0000cc
+# # cyan
+# color6  = #c8e8ff
+# color14 = #ddeedd
+# # white
+# color7  = #fffdfa
+# color15 = #eafaea
 
 # vim: ft=dosini cms=#%s
