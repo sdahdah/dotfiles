@@ -68,27 +68,27 @@ wm_infos=""
 TAGS=( $(herbstclient tag_status $monitor) )
 for i in "${TAGS[@]}" ; do
     case ${i:0:1} in
-        '#')
+        '#')  # Tag viewed on monitor and is focused
             BG=$selbg
             FG=$selfg
             ;;
-        '+')
+        '+')  # Tag viewed on monitor and is not focused
             BG="#9CA668"
             FG="#141414"
             ;;
-        ':')
+        ':')  # Tag not empty
             BG=""
             FG="#ffffff"
             ;;
-        '!')
+        '!')  # Tag contains urgent window
             BG="#FF0675"
             FG="#141414"
             ;;
-        '-')
+        '-')  # Tag viewed on different monitor and is focused
             BG=""
             FG=$selbg
             ;;
-        *)
+        *)  # .: tag is empty, %: tag is viewed on different monitor and is not focused
             BG=""
             FG="#ababab"
             ;;
@@ -226,7 +226,7 @@ while read line; do
         ;;
     esac
 
-    echo -e "%{l}${wm_infos} ${sep} ${split} ${wnd_title}%{r}${sep} \uf5ef ${time} ${sep} "
+    echo -e "%{S${monitor}}%{l}${wm_infos} ${sep} ${split} ${wnd_title}%{r}${sep} \uf5ef ${time} ${sep} "
 
 done | lemonbar -B "#ff000000" \
                 -o -5 \
@@ -245,6 +245,8 @@ done | lemonbar -B "#ff000000" \
 #                 -f "BlexMono Nerd Font Mono:style=Text,Regular:size=16" \
 #                 -g "${panel_width}x${panel_height}+${x}+${y}" 2> /dev/null | sh &
 
+
+herbstclient pad $monitor $panel_height
 
 # Emit hooks to keep it updating
 while true; do
