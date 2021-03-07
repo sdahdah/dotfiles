@@ -1,22 +1,27 @@
 # Colours
 # Based on vim-colors-lucid
 
-set default-bg                  "#0f0c14"
+set default-bg                  "#0b0a0b"
+# set default-bg                  "#0f0c14"
 set default-fg                  "#e4e0ed"
 
 set statusbar-fg                "#e4e0ed"
 set statusbar-bg                "#181320"
 
-set inputbar-bg                 "#0f0c14"
+set inputbar-bg                 "#0b0a0b"
+# set inputbar-bg                 "#0f0c14"
 set inputbar-fg                 "#e4e0ed"
 
-set notification-bg             "#0f0c14"
+set notification-bg             "#0b0a0b"
+# set notification-bg             "#0f0c14"
 set notification-fg             "#e4e0ed"
 
-set notification-error-bg       "#0f0c14"
+set notification-error-bg       "#0b0a0b"
+# set notification-error-bg       "#0f0c14"
 set notification-error-fg       "#db0088"
 
-set notification-warning-bg     "#0f0c14"
+set notification-warning-bg     "#0b0a0b"
+# set notification-warning-bg     "#0f0c14"
 set notification-warning-fg     "#db0088"
 
 set highlight-color             "#fde9a2"
@@ -28,7 +33,8 @@ set completion-fg               "#83a8d1"
 set completion-highlight-fg     "#e4e0ed"
 set completion-highlight-bg     "#83a8d1"
 
-set recolor-lightcolor          "#0f0c14"
+set recolor-lightcolor          "#0b0a0b"
+# set recolor-lightcolor          "#0f0c14"
 set recolor-darkcolor           "#e4e0ed"
 
 # Settings
