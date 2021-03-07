@@ -27,6 +27,32 @@ Plug 'nathanaelkane/vim-indent-guides'
     let g:indent_guides_start_level = 2
     let g:indent_guides_guide_size = 1
     let g:indent_guides_auto_colors = 0
+" Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
+"     let g:pydocstring_formatter = 'numpy'
+" Plug 'fisadev/vim-isort'
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"     let g:deoplete#enable_at_startup = 1
+Plug 'fs111/pydoc.vim'
+Plug 'vim-test/vim-test'
+    " Disable slow tests for file only
+    " let test#python#pytest#options = {
+    "   \ 'file': '-k-slow',
+    " \}
+    map <Leader>tn :TestNearest<CR>
+    map <Leader>tf :TestFile<CR>
+    map <Leader>ts :TestSuite<CR>
+    map <Leader>tl :TestLast<CR>
+    map <Leader>tv :TestVisit<CR>
+" Plug 'jmcantrell/vim-virtualenv'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" Plug 'lukas-reineke/indent-blankline.nvim', {'branch': 'lua'}
+" Plug 'Yggdroot/indentLine'
+" Plug 'lukas-reineke/indent-blankline.nvim'
+
+Plug 'chrisbra/csv.vim'
+
 " Colorschemes
 Plug 'agude/vim-eldar'
 Plug 'cseelus/vim-colors-lucid'
@@ -42,6 +68,22 @@ Plug 'trapd00r/neverland-vim-theme'
 Plug 'lodestone/lodestone.vim'
 Plug 'mrkn/mrkn256.vim'
 Plug 'vim-scripts/synic.vim'
+Plug 'ayu-theme/ayu-vim'
+    " let ayucolor="light"
+    " let ayucolor="mirage"
+    let ayucolor="dark"
+Plug 'ulwlu/elly.vim'
+Plug 'felipec/vim-felipec'
+
+Plug 'vim-scripts/pyte'
+Plug 'vim-scripts/eclipse.vim'
+Plug 'vim-scripts/AutumnLeaf'
+Plug 'vim-scripts/ironman.vim'
+Plug 'vim-scripts/nuvola.vim'
+Plug 'vim-scripts/simpleandfriendly.vim'
+Plug 'vim-scripts/buttercream.vim'
+
+Plug 'chriskempson/base16-vim'
 
 call plug#end()
 
@@ -57,8 +99,9 @@ set signcolumn=yes
 set mouse=a
 " Highlight current line
 set cursorline
-" Show trailing whitespace
+" Listchars and wrap characters
 set list listchars=nbsp:¬,tab:\|\ ,extends:»,precedes:«,trail:·
+let &showbreak = '↳ '
 " Disable wrapping
 set nowrap
 " Indentation settings
@@ -72,20 +115,8 @@ set updatetime=100
 set nostartofline
 " True colors
 set termguicolors
+" Make escape work in terminal
+tnoremap <Esc> <C-\><C-n>
 " Set colour scheme
 set background=dark
 colorscheme lucid
-
-" " Eldar overrides
-" highlight SignColumn guibg='#2E3435'
-" highlight ColorColumn guibg='#2E3435'
-" highlight CursorLine gui=underline
-" " highlight IndentGuidesOdd guibg='#2E3435'
-" " highlight IndentGuidesEven guibg='#2E3435'
-" highlight MatchParen gui=underline guibg=none
-" Lucid overrides
-highlight! link ColorColumn CursorLine
-highlight! link IndentGuidesOdd CursorLine
-highlight! link IndentGuidesEven CursorLine
-" To change in color scheme:
-" let colorgroup['MatchParen']   = {"GUIFG": _pink, "GUIBG":  _rock_dark}
