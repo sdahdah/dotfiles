@@ -6,8 +6,7 @@ if [ -f ~/.bashrc ]; then
 fi
 
 # User specific environment and startup programs
-export PATH=$HOME/.local/bin:$PATH
-export PATH=$HOME/.gem/ruby/2.7.0/bin:$PATH
+export PATH=$HOME/.local/bin:$HOME/bin:$HOME/.gem/ruby/2.7.0/bin:$PATH
 # Fix QT cursor size bug
 export XCURSOR_SIZE=24
 

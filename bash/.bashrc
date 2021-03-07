@@ -25,11 +25,16 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # Useful aliases
-# alias pyenvinit='eval "$(pyenv init -)"; eval "$(pyenv virtualenv-init -)"'
-# alias condainit='source /opt/miniconda3/bin/activate'
+# conda config --set auto_activate_base false
+alias miniconda='eval "$(/home/steven/.local/share/miniconda3/bin/conda shell.bash hook)"'
 # alias eot='/usr/share/doc/herbstluftwm/examples/exec_on_tag.sh'
 # alias eh='/usr/share/doc/herbstluftwm/examples/exec_on_tag.sh $(herbstclient get_attr tags.focus.name)'
 alias fo='detach xdg-open "$(fzf)"'
+alias xo='detach xdg-open'
+
+venv () {
+    source ~/.virtualenvs/${1}/bin/activate
+}
 
 # Colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
@@ -78,13 +83,21 @@ _dir_chomp () {
 # cgit="$(tput bold)$(tput setaf 11)"
 # cpunct="$(tput sgr0)$(tput setaf 7)"
 
-# Lucid 4
+# Lucid
 creset="$(tput sgr0)"
 cbracket="$(tput sgr0)$(tput setaf 7)"
 cname="$(tput sgr0)$(tput setaf 4)"
 cdir="$(tput sgr0)$(tput setaf 2)"
 cgit="$(tput sgr0)$(tput setaf 1)"
 cpunct="$(tput sgr0)$(tput setaf 7)"
+
+# # AutumnLeaf
+# creset="$(tput sgr0)"
+# cbracket="$(tput sgr0)$(tput setaf 0)"
+# cname="$(tput sgr0)$(tput setaf 4)"
+# cdir="$(tput sgr0)$(tput setaf 2)"
+# cgit="$(tput sgr0)$(tput setaf 1)"
+# cpunct="$(tput sgr0)$(tput setaf 0)"
 
 # Set prompt
 PS1='\[${cbracket}\][\
