@@ -16,7 +16,7 @@ selfg='#101010'
 bgcolor=$(herbstclient get frame_border_normal_color)
 selbg=$(herbstclient get window_border_active_color)
 sep="%{F$selbg}|%{F-}"
-wnd_title=`herbstclient get_attr clients.focus.title | cut -c 1-80`
+wnd_title=`herbstclient get_attr clients.focus.title | tr -cd '\000-\177' | cut -c 1-80`
 
 function getsplit() {
     local rawsplit=`herbstclient layout | awk '/FOCUS/{print $2}' | rev | cut -c 2- | rev`
@@ -109,13 +109,13 @@ while read line; do
         ;;
 
     window_title_changed*)
-        wnd_title=`echo $line | awk '{$1=$2=""; print $0}' | cut -c 3-80`
+        wnd_title=`echo $line | awk '{$1=$2=""; print $0}' | tr -cd '\000-\177' | cut -c 3-80`
         # split=`herbstclient layout | awk '/FOCUS/{print $2}' | rev | cut -c 2- | rev`
         split=$(getsplit)
         ;;
 
     focus_changed*)
-        wnd_title=`echo $line | awk '{$1=$2=""; print $0}' | cut -c 3-80`
+        wnd_title=`echo $line | awk '{$1=$2=""; print $0}' | tr -cd '\000-\177' | cut -c 3-80`
         # split=`herbstclient layout | awk '/FOCUS/{print $2}' | rev | cut -c 2- | rev`
         split=$(getsplit)
         # Copy-pasted

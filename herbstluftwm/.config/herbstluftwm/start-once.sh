@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 numlockx
+xset -b  # Needed here or xinitrc?
+xbindkeys
 dunst &
 tresorit --hidden &
 cbatticon &

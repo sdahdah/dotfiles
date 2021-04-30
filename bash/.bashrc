@@ -27,14 +27,8 @@ fi
 # Useful aliases
 # conda config --set auto_activate_base false
 alias miniconda='eval "$(/home/steven/.local/share/miniconda3/bin/conda shell.bash hook)"'
-# alias eot='/usr/share/doc/herbstluftwm/examples/exec_on_tag.sh'
-# alias eh='/usr/share/doc/herbstluftwm/examples/exec_on_tag.sh $(herbstclient get_attr tags.focus.name)'
-alias fo='detach xdg-open "$(fzf)"'
-alias xo='detach xdg-open'
-
-venv () {
-    source ~/.virtualenvs/${1}/bin/activate
-}
+alias fo='detach -- xdg-open "$(fzf)"'
+alias xo='detach -- xdg-open'
 
 # Colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
@@ -42,7 +36,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # Change editor to nvim
 export EDITOR="nvim"
 export VISUAL="nvim"
-# Change terminal to terite
+# Change terminal to termite
 export TERMINAL="termite"
 # Change pager to most
 # export PAGER="most"
@@ -55,7 +49,20 @@ eval "$(fasd --init auto)"
 
 # Git branch
 _parse_git_branch () {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+    # git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/' | cut -d- -f1-2
+    local a=$(git symbolic-ref --short HEAD 2> /dev/null)
+    # local a=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+    local l=${#a}
+    if [ $l == 0 ]
+    then
+        echo
+    elif [ $l -le 20 ]
+    then
+        echo " ($a)"
+    else
+        local short=$(echo ${a} | cut -d- -f1-2)
+        echo " ($short...)"
+    fi
 }
 
 # Directory shortener
@@ -107,3 +114,8 @@ PS1='\[${cbracket}\][\
 \[${cbracket}\]]\
 \[${cgit}\]$(_parse_git_branch)\
 \[${cpunct}\] $ \[${creset}\]'
+
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/Documents/Personal
+export VIRTUALENVWRAPPER_SCRIPT=/usr/bin/virtualenvwrapper.sh
+source /usr/bin/virtualenvwrapper_lazy.sh
