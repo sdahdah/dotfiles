@@ -150,6 +150,11 @@ hc attr theme.active.inner_color '#3E4A00'
 hc attr theme.active.outer_color '#3E4A00'
 hc attr theme.background_color '#141414'
 
+# hc attr theme.title_height 14
+# hc attr theme.title_color '#9fbc00'
+# hc attr theme.title_color '#000000'
+# hc attr theme.title_font 'IBM Plex Mono Text:style=Text,Regular:size=10'
+
 hc set window_gap 0
 hc set frame_padding 0
 hc set smart_window_surroundings off

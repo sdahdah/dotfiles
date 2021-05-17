@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+killall tint2
+
+feh --bg-tile ~/Pictures/Wallpaper/pattern_146.gif ~/Pictures/Wallpaper/pattern_146.gif
+
+tint2 &

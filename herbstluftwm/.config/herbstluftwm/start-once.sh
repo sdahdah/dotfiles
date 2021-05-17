@@ -9,7 +9,7 @@ cbatticon &
 nm-applet &
 pasystray &
 # redshift-gtk &
-redshift -l 45.5017:-73.5673 &  # Workaround for geoclue
+# redshift -l 45.5017:-73.5673 &  # Workaround for geoclue
 xfce4-clipman &
 caffeine &
 xcompmgr -a &
