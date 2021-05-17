@@ -13,17 +13,82 @@ Plug 'chrisbra/Colorizer'
 Plug 'lervag/vimtex'
     let g:vimtex_view_method = 'zathura'
     let g:vimtex_indent_enabled = 0
-Plug 'dense-analysis/ale'
-    let g:ale_echo_msg_format="[%linter% %code%] %s"
-" Plug 'jpalardy/vim-slime'
-"     let g:slime_target = "dtach"
+" Plug 'natebosch/vim-lsc', {'tag': 'v0.3.1'}
+"     " set statusline+=%{LSCServerStatus()}
+"     set shortmess-=F
+"     let g:lsc_server_commands = {
+"         \ 'python': {
+"         \     'name': 'pyls',
+"         \     'command': 'pyls --check-parent-process',
+"         \     'suppress_stderr': v:true,
+"         \     },
+"         \}
+"     " let g:lsc_auto_map = v:true
+"     let g:lsc_auto_map = {
+"         \ 'GoToDefinition': '<C-]>',
+"         \ 'FindReferences': 'gr',
+"         \ 'NextReference': '<C-n>',
+"         \ 'PreviousReference': '<C-p>',
+"         \ 'FindImplementations': 'gI',
+"         \ 'FindCodeActions': 'ga',
+"         \ 'DocumentSymbol': 'go',
+"         \ 'WorkspaceSymbol': 'gS',
+"         \ 'ShowHover': 'K',
+"         \ 'Completion': 'completefunc',
+"         \}
+"     " let g:lsc_enable_autocomplete = v:false
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+    " let g:lsp_settings = {
+    " \   'pyls-all': {
+    " \     'workspace_config': {
+    " \       'pyls': {
+    " \         'plugins': {
+    " \           'rope': {'enabled': v:false},
+    " \           'pyflakes': {'enabled': v:false},
+    " \           'mccabe': {'enabled': v:false},
+    " \           'pycodestyle': {
+    " \             'enabled': v:true,
+    " \             'maxLineLength': 120,
+    " \             },
+    " \           'pydocstyle': {'enabled': v:true},
+    " \           'autopep8': {'enabled': v:false},
+    " \           'yapf': {'enabled': v:true},
+    " \         },
+    " \       },
+    " \     },
+    " \   },
+    " \}
+    "
+    let g:lsp_diagnostics_virtual_text_enabled = 0
+    let g:lsp_diagnostics_echo_cursor = 1
+    let g:lsp_diagnostics_highlights_enabled = 0
+    " let g:lsp_preview_float = 0
+    " let g:lsp_insert_text_enabled = 0
+    " let g:lsp_text_edit_enabled = 0
+
+    nmap gd <plug>(lsp-definition)
+    nmap gs <plug>(lsp-document-symbol-search)
+    nmap gS <plug>(lsp-workspace-symbol-search)
+    nmap gr <plug>(lsp-references)
+    nmap gi <plug>(lsp-implementation)
+    nmap gt <plug>(lsp-type-definition)
+    nmap <leader>rn <plug>(lsp-rename)
+    nmap [g <plug>(lsp-previous-diagnostic)
+    nmap ]g <plug>(lsp-next-diagnostic)
+    nmap K <plug>(lsp-hover)
+    nmap <leader>sf <plug>(lsp-document-format)
+
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
+
 Plug 'vim-python/python-syntax'
     let g:python_highlight_all = 1
     let g:python_highlight_indent_errors = 0
     let g:python_highlight_space_errors = 0
 " Plug 'jeetsukumaran/vim-pythonsense'  " Motions
 Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'ludovicchabant/vim-gutentags'
 Plug 'nathanaelkane/vim-indent-guides'
     let g:indent_guides_enable_on_vim_startup = 1
     let g:indent_guides_start_level = 2
@@ -34,7 +99,8 @@ Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'fisadev/vim-isort'
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 "     let g:deoplete#enable_at_startup = 1
-Plug 'fs111/pydoc.vim'
+"
+" Plug 'fs111/pydoc.vim'
 Plug 'vim-test/vim-test'
     " Disable slow tests for file only
     " let test#python#pytest#options = {
@@ -77,9 +143,12 @@ Plug 'radenling/vim-dispatch-neovim'
 
 Plug 'chrisbra/csv.vim'
 Plug 'liuchengxu/vista.vim'
-    " let g:vista#renderer#enable_icon = 1
-    " let g:vista_icon_indent = ["▸ ", ""]
+    let g:vista_stay_on_open = 0
+    let g:vista_executive_for = {
+      \ 'python': 'vim_lsp',
+      \ }
     map <Leader>vv :Vista!!<CR>
+    map <Leader>vf :Vista focus<CR>
 Plug 'goerz/jupytext.vim' 
 " Plug 'chiefnoah/neuron-v2.vim'
 Plug 'fiatjaf/neuron.vim'
@@ -87,6 +156,7 @@ Plug 'fiatjaf/neuron.vim'
 Plug 'junegunn/goyo.vim'
     " let g:goyo_height=100
     " let g:goyo_linenr=1
+" Plug 'rktjmp/lush.nvim'
 
 " Colorschemes
 Plug 'agude/vim-eldar'
@@ -128,6 +198,24 @@ Plug 'romainl/Apprentice'
 Plug 'ParamagicDev/vim-medic_chalk'
 Plug 'nanotech/jellybeans.vim'
 Plug 'sainnhe/edge'
+Plug 'tomasr/molokai'
+Plug 'sonph/onehalf', {'rtp': 'vim/'}
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'srcery-colors/srcery-vim'
+Plug 'preservim/vim-colors-pencil'
+Plug 'ackyshake/Spacegray.vim'
+Plug 'arzg/vim-colors-xcode'
+Plug 'haishanh/night-owl.vim'
+Plug 'KeitaNakamura/neodark.vim'
+Plug 'jaredgorski/SpaceCamp'
+Plug 'robertmeta/nofrils'
+    let g:nofrils_strbackgrounds=0
+    let g:nofrils_heavycomments=1
+    let g:nofrils_heavylinenumbers=1
+Plug 'danilo-augusto/vim-afterglow'
+Plug 'dikiaap/minimalist'
+Plug 'aonemd/kuroi.vim'
+Plug 'fcpg/vim-fahrenheit'
 
 " Treesitter schemes
 Plug 'sainnhe/sonokai'
@@ -137,6 +225,15 @@ Plug 'glepnir/zephyr-nvim'
 Plug 'vigoux/oak'
 Plug 'folke/tokyonight.nvim'
 Plug 'fenetikm/falcon'
+
+Plug 'bluz71/vim-nightfly-guicolors'
+Plug 'ishan9299/modus-theme-vim'
+Plug 'PHSix/nvim-hybrid'
+Plug 'ray-x/aurora'
+" Plug 'olimorris/onedark.nvim'
+Plug 'DilanGMB/nightbuddy'
+Plug 'folke/tokyonight.nvim'
+Plug 'ajmwagar/vim-deus'
 
 call plug#end()
 
@@ -168,6 +265,8 @@ set expandtab
 set updatetime=100
 " Make gg and G keep column
 set nostartofline
+" Hybrid line numbering
+set number relativenumber
 " True colors
 set termguicolors
 " Make escape work in terminal
