@@ -41,6 +41,8 @@ export TERMINAL="termite"
 # Change pager to most
 # export PAGER="most"
 
+export HISTCONTROL=ignoreboth:erasedups
+
 # Termite ctrl-shift-t
 source /etc/profile.d/vte.sh
 
