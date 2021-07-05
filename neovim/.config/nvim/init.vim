@@ -13,6 +13,7 @@ Plug 'chrisbra/Colorizer'
 Plug 'lervag/vimtex'
     let g:vimtex_view_method = 'zathura'
     let g:vimtex_indent_enabled = 0
+Plug 'sdahdah/vim-taskjuggler'
 " Plug 'natebosch/vim-lsc', {'tag': 'v0.3.1'}
 "     " set statusline+=%{LSCServerStatus()}
 "     set shortmess-=F
@@ -80,6 +81,9 @@ Plug 'mattn/vim-lsp-settings'
     nmap <leader>sf <plug>(lsp-document-format)
 
 Plug 'vim-pandoc/vim-pandoc'
+    let g:pandoc#folding#level = 999
+    let g:pandoc#folding#fdc = 4
+    " let g:pandoc#folding#mode = 'stacked'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 
 Plug 'vim-python/python-syntax'
@@ -122,19 +126,22 @@ Plug 'tpope/vim-dispatch'
 
     autocmd FileType python let b:dispatch = 'python %'
 
-    function! DispatchFile()
+    function! DispatchFile(cmd)
         let g:last_dispatcher = split(b:dispatch)[0]
         let g:last_file = expand('%p')
-        execute "Dispatch " g:last_dispatcher g:last_file
+        let g:last_cmd = a:cmd
+        execute a:cmd " " g:last_dispatcher g:last_file
     endfunction
 
     function! DispatchLast()
-        execute "Dispatch " g:last_dispatcher g:last_file
+        execute g:last_cmd " " g:last_dispatcher g:last_file
     endfunction
 
-    " map <Leader>df :Dispatch<CR>
-    map <Leader>df :call DispatchFile()<CR>
-    map <Leader>dl :call DispatchLast()<CR>
+    map <Leader>df :call DispatchFile("Dispatch")<CR>
+    map <Leader>dF :call DispatchFile("Dispatch!")<CR>
+    map <Leader>ds :call DispatchFile("Start")<CR>
+    map <Leader>dS :call DispatchFile("Start!")<CR>
+    map <Leader>dd :call DispatchLast()<CR>
 Plug 'radenling/vim-dispatch-neovim'
 
 " Plug 'lukas-reineke/indent-blankline.nvim', {'branch': 'lua'}
@@ -149,7 +156,7 @@ Plug 'liuchengxu/vista.vim'
       \ }
     map <Leader>vv :Vista!!<CR>
     map <Leader>vf :Vista focus<CR>
-Plug 'goerz/jupytext.vim' 
+Plug 'goerz/jupytext.vim'
 " Plug 'chiefnoah/neuron-v2.vim'
 Plug 'fiatjaf/neuron.vim'
 
@@ -234,6 +241,8 @@ Plug 'ray-x/aurora'
 Plug 'DilanGMB/nightbuddy'
 Plug 'folke/tokyonight.nvim'
 Plug 'ajmwagar/vim-deus'
+Plug 'dguo/blood-moon', {'rtp': 'applications/vim'}
+Plug 'vim-scripts/vylight'
 
 call plug#end()
 
@@ -266,14 +275,20 @@ set updatetime=100
 " Make gg and G keep column
 set nostartofline
 " Hybrid line numbering
-set number relativenumber
+" set number relativenumber
 " True colors
 set termguicolors
 " Make escape work in terminal
 tnoremap <Esc> <C-\><C-n>
+" Output the current syntax group
+nnoremap <f10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<cr>
 " Set colour scheme
 set background=dark
-colorscheme lucid
+colorscheme falcon
+" colorscheme blood-moon
+" colorscheme lucid
 
 augroup neovim_terminal
     autocmd!
