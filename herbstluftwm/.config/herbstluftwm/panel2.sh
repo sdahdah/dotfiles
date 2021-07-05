@@ -115,7 +115,8 @@ hc pad $monitor $panel_height
             if [ ! -z "$dzen2_svn" ] ; then
                 # clickable tags if using SVN dzen
                 echo -n "^ca(1,$hc_quoted focus_monitor \"$monitor\" && "
-                echo -n "$hc_quoted use \"${i:1}\") ${i:1} ^ca()"
+                # echo -n "$hc_quoted use \"${i:1}\") ${i:1} ^ca()"
+                echo -n "$hc_quoted use \"${i:1}\") ${i} ^ca()"
             else
                 # non-clickable tags if using older dzen
                 echo -n " ${i:1} "
