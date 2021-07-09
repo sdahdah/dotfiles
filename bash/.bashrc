@@ -125,6 +125,9 @@ PS1='\[${cbracket}\][\
 \[${cgit}\]$(_parse_git_branch)\
 \[${cpunct}\] $ \[${creset}\]'
 
+# pipx completions
+eval "$(register-python-argcomplete pipx)"
+
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Documents/Personal
 export VIRTUALENVWRAPPER_SCRIPT=/usr/bin/virtualenvwrapper.sh
