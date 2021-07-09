@@ -1,4 +1,6 @@
 call plug#begin(stdpath('data') . '/plugged')
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'tpope/vim-commentary'
     autocmd FileType tjp setlocal commentstring=#\ %s
 Plug 'tpope/vim-eunuch'
@@ -14,97 +16,33 @@ Plug 'lervag/vimtex'
     let g:vimtex_view_method = 'zathura'
     let g:vimtex_indent_enabled = 0
 Plug 'sdahdah/vim-taskjuggler'
-" Plug 'natebosch/vim-lsc', {'tag': 'v0.3.1'}
-"     " set statusline+=%{LSCServerStatus()}
-"     set shortmess-=F
-"     let g:lsc_server_commands = {
-"         \ 'python': {
-"         \     'name': 'pyls',
-"         \     'command': 'pyls --check-parent-process',
-"         \     'suppress_stderr': v:true,
-"         \     },
-"         \}
-"     " let g:lsc_auto_map = v:true
-"     let g:lsc_auto_map = {
-"         \ 'GoToDefinition': '<C-]>',
-"         \ 'FindReferences': 'gr',
-"         \ 'NextReference': '<C-n>',
-"         \ 'PreviousReference': '<C-p>',
-"         \ 'FindImplementations': 'gI',
-"         \ 'FindCodeActions': 'ga',
-"         \ 'DocumentSymbol': 'go',
-"         \ 'WorkspaceSymbol': 'gS',
-"         \ 'ShowHover': 'K',
-"         \ 'Completion': 'completefunc',
-"         \}
-"     " let g:lsc_enable_autocomplete = v:false
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-    " let g:lsp_settings = {
-    " \   'pyls-all': {
-    " \     'workspace_config': {
-    " \       'pyls': {
-    " \         'plugins': {
-    " \           'rope': {'enabled': v:false},
-    " \           'pyflakes': {'enabled': v:false},
-    " \           'mccabe': {'enabled': v:false},
-    " \           'pycodestyle': {
-    " \             'enabled': v:true,
-    " \             'maxLineLength': 120,
-    " \             },
-    " \           'pydocstyle': {'enabled': v:true},
-    " \           'autopep8': {'enabled': v:false},
-    " \           'yapf': {'enabled': v:true},
-    " \         },
-    " \       },
-    " \     },
-    " \   },
-    " \}
-    "
-    let g:lsp_diagnostics_virtual_text_enabled = 0
-    let g:lsp_diagnostics_echo_cursor = 1
-    let g:lsp_diagnostics_highlights_enabled = 0
-    " let g:lsp_preview_float = 0
-    " let g:lsp_insert_text_enabled = 0
-    " let g:lsp_text_edit_enabled = 0
-
-    nmap gd <plug>(lsp-definition)
-    nmap gs <plug>(lsp-document-symbol-search)
-    nmap gS <plug>(lsp-workspace-symbol-search)
-    nmap gr <plug>(lsp-references)
-    nmap gi <plug>(lsp-implementation)
-    nmap gt <plug>(lsp-type-definition)
-    nmap <leader>rn <plug>(lsp-rename)
-    nmap [g <plug>(lsp-previous-diagnostic)
-    nmap ]g <plug>(lsp-next-diagnostic)
-    nmap K <plug>(lsp-hover)
-    nmap <leader>sf <plug>(lsp-document-format)
-
 Plug 'vim-pandoc/vim-pandoc'
     let g:pandoc#folding#level = 999
     let g:pandoc#folding#fdc = 4
     " let g:pandoc#folding#mode = 'stacked'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 
-Plug 'vim-python/python-syntax'
-    let g:python_highlight_all = 1
-    let g:python_highlight_indent_errors = 0
-    let g:python_highlight_space_errors = 0
+" Python
+" Plug 'vim-python/python-syntax'
+"     let g:python_highlight_all = 1
+"     let g:python_highlight_indent_errors = 0
+"     let g:python_highlight_space_errors = 0
 " Plug 'jeetsukumaran/vim-pythonsense'  " Motions
 Plug 'Vimjas/vim-python-pep8-indent'
+" Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
+"     let g:pydocstring_formatter = 'numpy'
+" Plug 'fisadev/vim-isort'
+" Plug 'fs111/pydoc.vim'
+" Plug 'jmcantrell/vim-virtualenv'
+
 " Plug 'ludovicchabant/vim-gutentags'
 Plug 'nathanaelkane/vim-indent-guides'
     let g:indent_guides_enable_on_vim_startup = 1
     let g:indent_guides_start_level = 2
     let g:indent_guides_guide_size = 1
     let g:indent_guides_auto_colors = 0
-" Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
-"     let g:pydocstring_formatter = 'numpy'
-" Plug 'fisadev/vim-isort'
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 "     let g:deoplete#enable_at_startup = 1
-"
-" Plug 'fs111/pydoc.vim'
 Plug 'vim-test/vim-test'
     " Disable slow tests for file only
     " let test#python#pytest#options = {
@@ -115,7 +53,6 @@ Plug 'vim-test/vim-test'
     map <Leader>ts :TestSuite<CR>
     map <Leader>tl :TestLast<CR>
     map <Leader>tv :TestVisit<CR>
-" Plug 'jmcantrell/vim-virtualenv'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Plug 'romainl/vim-cool'
@@ -149,14 +86,14 @@ Plug 'radenling/vim-dispatch-neovim'
 " Plug 'lukas-reineke/indent-blankline.nvim'
 
 Plug 'chrisbra/csv.vim'
-Plug 'liuchengxu/vista.vim'
-    let g:vista_stay_on_open = 0
-    let g:vista_executive_for = {
-      \ 'python': 'vim_lsp',
-      \ }
-    map <Leader>vv :Vista!!<CR>
-    map <Leader>vf :Vista focus<CR>
-Plug 'goerz/jupytext.vim'
+" Plug 'liuchengxu/vista.vim'
+"     let g:vista_stay_on_open = 0
+"     let g:vista_executive_for = {
+"       \ 'python': 'vim_lsp',
+"       \ }
+"     map <Leader>vv :Vista!!<CR>
+"     map <Leader>vf :Vista focus<CR>
+" Plug 'goerz/jupytext.vim'
 " Plug 'chiefnoah/neuron-v2.vim'
 Plug 'fiatjaf/neuron.vim'
 
@@ -232,6 +169,12 @@ Plug 'glepnir/zephyr-nvim'
 Plug 'vigoux/oak'
 Plug 'folke/tokyonight.nvim'
 Plug 'fenetikm/falcon'
+Plug 'Matsuuu/pinkmare'
+Plug 'tomasiser/vim-code-dark'
+Plug 'Yagua/nebulous.nvim'
+Plug 'rktjmp/lush.nvim'
+Plug 'elianiva/gruvy.nvim'
+Plug 'kuznetsss/meadow-nvim'
 
 Plug 'bluz71/vim-nightfly-guicolors'
 Plug 'ishan9299/modus-theme-vim'
@@ -289,6 +232,7 @@ set background=dark
 colorscheme falcon
 " colorscheme blood-moon
 " colorscheme lucid
+" colorscheme pencil
 
 augroup neovim_terminal
     autocmd!
@@ -299,3 +243,102 @@ augroup neovim_terminal
     " allows you to use Ctrl-c on terminal window
     " autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
 augroup END
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+    highlight = {
+        enable = true,
+    },
+    incremental_selection = {
+        enable = true,
+        keymaps = {
+            init_selection = "gnn",
+            node_incremental = "grn",
+            scope_incremental = "grc",
+            node_decremental = "grm",
+        },
+    },
+    indent = {
+        enable = false,
+    },
+}
+EOF
+
+lua << EOF
+local nvim_lsp = require('lspconfig')
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  --Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  -- buf_set_keymap('n', '<Leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  -- buf_set_keymap('n', '<Leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  -- buf_set_keymap('n', '<Leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<Leader>sD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<Leader>sr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<Leader>sa', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  -- buf_set_keymap('n', '<Leader>se', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  -- buf_set_keymap('n', '<Leader>sq', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap("n", "<Leader>sf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+end
+
+nvim_lsp.pylsp.setup {
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    },
+    settings = {
+        pylsp = {
+            plugins = {
+                rope = {
+                    enabled = true,
+                },
+                pylint = {
+                    enabled = false,
+                },
+                pyflakes = {
+                    enabled = false,
+                },
+                pycodestyle = {
+                    enabled = true,
+                },
+                pydocstyle = {
+                    enabled = true,
+                },
+                autopep8 = {
+                    enabled = false,
+                },
+                yapf = {
+                    enabled = true,
+                },
+                pylsp_isort = {
+                    enabled = true,
+                },
+                pylsp_mypy = {
+                    enabled = true,
+                    live_mode = false,
+                    dmypy = true,
+                },
+            },
+        },
+    },
+}
+EOF
