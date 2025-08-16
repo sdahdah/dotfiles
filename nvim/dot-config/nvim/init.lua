@@ -1,6 +1,5 @@
 require("paq") {
     "savq/paq-nvim",
-    "neovim/nvim-lspconfig",
     "stevearc/oil.nvim",
     "tpope/vim-fugitive",
     "lewis6991/gitsigns.nvim",
@@ -9,6 +8,8 @@ require("paq") {
     {"nvim-telescope/telescope-fzf-native.nvim", build = "make"},  -- For `telescope.nvim`
     "nvim-telescope/telescope.nvim",
     "lukas-reineke/indent-blankline.nvim",
+    "numToStr/Comment.nvim",
+    "neovim/nvim-lspconfig",
     -- Colorschemes
     "fenetikm/falcon",
     "savq/melange-nvim",
@@ -139,6 +140,10 @@ require("ibl").setup({
         enabled = false,
     },
 })
+
+
+-- `Comment.nvim`
+require("Comment").setup()
 
 -- `neovim/nvim-lspconfig`
 
