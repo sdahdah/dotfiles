@@ -5,14 +5,13 @@ My Linux configuration files, organized using
 
 ## Instructions
 
-To deploy a set of dotfiles (*e.g.*, `.bashrc` and `.bash_profile`) run
+To deploy a set of dotfiles (*e.g.*, `.tmux.conf`) run
 
 ```sh
-$ stow --dotfiles bash/
+$ stow --dotfiles ./tmux/
 ```
 
-from the repository root. This will symlink `./bash/dot-bashrc` to `~/.bashrc`
-and `./bash/dot-bash_profile` to `~/.bash_profile`.
+from the repository root. This will symlink `./tmux/dot-tmux.conf` to `~/.tmux.conf`.
 
 If any of the configuration files already exist, you will have to delete them
 first.
