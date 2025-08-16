@@ -9,6 +9,7 @@ require("paq") {
     "nvim-telescope/telescope.nvim",
     "lukas-reineke/indent-blankline.nvim",
     "numToStr/Comment.nvim",
+    {"sakhnik/nvim-gdb", build = "./install.sh"},
     "neovim/nvim-lspconfig",
     -- Colorschemes
     "fenetikm/falcon",
@@ -144,6 +145,9 @@ require("ibl").setup({
 
 -- `Comment.nvim`
 require("Comment").setup()
+
+-- `nvim.gdb`
+vim.g.nvimgdb_disable_start_keymaps = 1
 
 -- `neovim/nvim-lspconfig`
 
