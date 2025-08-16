@@ -2,6 +2,7 @@ require("paq") {
     "savq/paq-nvim",
     "neovim/nvim-lspconfig",
     "stevearc/oil.nvim",
+    "tpope/vim-fugitive",
     "lewis6991/gitsigns.nvim",
     {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
     "nvim-lua/plenary.nvim",  -- For `telescope.nvim`
