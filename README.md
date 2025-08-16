@@ -8,7 +8,7 @@ My Linux configuration files, organized using
 To deploy a set of dotfiles (*e.g.*, `.bashrc` and `.bash_profile`) run
 
 ```sh
-$ stow --dotfiles bash
+$ stow --dotfiles bash/
 ```
 
 from the repository root. This will symlink `./bash/dot-bashrc` to `~/.bashrc`
