@@ -1,15 +1,18 @@
+-- TODO vim-test, luasnip, vim-dispatch, vim-projectionist
+
 require("paq") {
     "savq/paq-nvim",
     "stevearc/oil.nvim",
     "tpope/vim-fugitive",
     "lewis6991/gitsigns.nvim",
-    {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
+    {"nvim-treesitter/nvim-treesitter", build=":TSUpdate"},
     "nvim-lua/plenary.nvim",  -- For `telescope.nvim`
-    {"nvim-telescope/telescope-fzf-native.nvim", build = "make"},  -- For `telescope.nvim`
+    {"nvim-telescope/telescope-fzf-native.nvim", build="make"},  -- For `telescope.nvim`
     "nvim-telescope/telescope.nvim",
     "lukas-reineke/indent-blankline.nvim",
     "numToStr/Comment.nvim",
-    {"sakhnik/nvim-gdb", build = "./install.sh"},
+    -- {"sakhnik/nvim-gdb", build="./install.sh"},
+    -- {"L3MON4D3/LuaSnip", build="make install_jsregexp"},
     "neovim/nvim-lspconfig",
     -- Colorschemes
     "fenetikm/falcon",
@@ -147,7 +150,10 @@ require("ibl").setup({
 require("Comment").setup()
 
 -- `nvim.gdb`
-vim.g.nvimgdb_disable_start_keymaps = 1
+-- `<leader>dd` GDB, `<leader>dl` LLDB, `<leader>dp` PDB, `<leader>db` BASH
+-- vim.g.nvimgdb_disable_start_keymaps = 1
+
+-- `LuaSnip`
 
 -- `neovim/nvim-lspconfig`
 
