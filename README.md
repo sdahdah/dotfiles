@@ -8,10 +8,10 @@ My Linux configuration files, organized using
 To deploy a set of dotfiles (*e.g.*, `.tmux.conf`) run
 
 ```sh
-$ stow --dotfiles ./tmux/
+$ stow tmux
 ```
 
-from the repository root. This will symlink `./tmux/dot-tmux.conf` to `~/.tmux.conf`.
+from the repository root. This will symlink `./tmux/.tmux.conf` to `~/.tmux.conf`.
 
 If any of the configuration files already exist, you will have to delete them
 first.
