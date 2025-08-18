@@ -1,4 +1,4 @@
--- TODO vim-test, luasnip, vim-dispatch, vim-projectionist
+-- TODO undotree, refactoring, vimux, vim-test, luasnip, vim-dispatch, vim-projectionist
 
 require("paq") {
     "savq/paq-nvim",
@@ -11,6 +11,7 @@ require("paq") {
     "nvim-telescope/telescope.nvim",
     "lukas-reineke/indent-blankline.nvim",
     "numToStr/Comment.nvim",
+    "preservim/vimux",
     -- {"sakhnik/nvim-gdb", build="./install.sh"},
     -- {"L3MON4D3/LuaSnip", build="make install_jsregexp"},
     "neovim/nvim-lspconfig",
