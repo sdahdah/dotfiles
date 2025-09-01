@@ -12,6 +12,7 @@ require("paq") {
     "lukas-reineke/indent-blankline.nvim",
     "numToStr/Comment.nvim",
     "preservim/vimux",
+    "mason-org/mason.nvim",
     -- {"sakhnik/nvim-gdb", build="./install.sh"},
     -- {"L3MON4D3/LuaSnip", build="make install_jsregexp"},
     "neovim/nvim-lspconfig",
@@ -155,6 +156,9 @@ require("Comment").setup()
 -- vim.g.nvimgdb_disable_start_keymaps = 1
 
 -- `LuaSnip`
+
+-- `mason.nvim`
+require("mason").setup()
 
 -- `neovim/nvim-lspconfig`
 local opts = { noremap = true, silent = true }
