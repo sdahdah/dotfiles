@@ -5,9 +5,9 @@ require("paq") {
     "stevearc/oil.nvim",
     "tpope/vim-fugitive",
     "lewis6991/gitsigns.nvim",
-    {"nvim-treesitter/nvim-treesitter", build=":TSUpdate"},
-    "nvim-lua/plenary.nvim",  -- For `telescope.nvim`
-    {"nvim-telescope/telescope-fzf-native.nvim", build="make"},  -- For `telescope.nvim`
+    { "nvim-treesitter/nvim-treesitter",          build = ":TSUpdate" },
+    "nvim-lua/plenary.nvim",                                    -- For `telescope.nvim`
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }, -- For `telescope.nvim`
     "nvim-telescope/telescope.nvim",
     "lukas-reineke/indent-blankline.nvim",
     "numToStr/Comment.nvim",
@@ -23,67 +23,67 @@ require("paq") {
 
 -- `oil.nvim`
 require("oil").setup()
-vim.keymap.set("n", "-", "<CMD>Oil<CR>", {desc = "Open parent directory"})
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 -- `gitsigns.nvim`
 require("gitsigns").setup({
-  on_attach = function(bufnr)
-    local gitsigns = require("gitsigns")
+    on_attach = function(bufnr)
+        local gitsigns = require("gitsigns")
 
-    -- Navigation
-    vim.keymap.set("n", "]c", function()
-      if vim.wo.diff then
-        vim.cmd.normal({"]c", bang = true})
-      else
-        gitsigns.nav_hunk("next")
-      end
-    end, {buffer=bufnr})
+        -- Navigation
+        vim.keymap.set("n", "]c", function()
+            if vim.wo.diff then
+                vim.cmd.normal({ "]c", bang = true })
+            else
+                gitsigns.nav_hunk("next")
+            end
+        end, { buffer = bufnr })
 
-    vim.keymap.set("n", "[c", function()
-      if vim.wo.diff then
-        vim.cmd.normal({"[c", bang = true})
-      else
-        gitsigns.nav_hunk("prev")
-      end
-    end, {buffer=bufnr})
+        vim.keymap.set("n", "[c", function()
+            if vim.wo.diff then
+                vim.cmd.normal({ "[c", bang = true })
+            else
+                gitsigns.nav_hunk("prev")
+            end
+        end, { buffer = bufnr })
 
-    -- Actions
-    vim.keymap.set("n", "<leader>hs", gitsigns.stage_hunk, {buffer=bufnr})
-    vim.keymap.set("n", "<leader>hr", gitsigns.reset_hunk, {buffer=bufnr})
+        -- Actions
+        vim.keymap.set("n", "<leader>hs", gitsigns.stage_hunk, { buffer = bufnr })
+        vim.keymap.set("n", "<leader>hr", gitsigns.reset_hunk, { buffer = bufnr })
 
-    vim.keymap.set("v", "<leader>hs", function()
-      gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-    end, {buffer=bufnr})
+        vim.keymap.set("v", "<leader>hs", function()
+            gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+        end, { buffer = bufnr })
 
-    vim.keymap.set("v", "<leader>hr", function()
-      gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-    end, {buffer=bufnr})
+        vim.keymap.set("v", "<leader>hr", function()
+            gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+        end, { buffer = bufnr })
 
-    vim.keymap.set("n", "<leader>hS", gitsigns.stage_buffer, {buffer=bufnr})
-    vim.keymap.set("n", "<leader>hR", gitsigns.reset_buffer, {buffer=bufnr})
-    vim.keymap.set("n", "<leader>hp", gitsigns.preview_hunk, {buffer=bufnr})
-    vim.keymap.set("n", "<leader>hi", gitsigns.preview_hunk_inline, {buffer=bufnr})
+        vim.keymap.set("n", "<leader>hS", gitsigns.stage_buffer, { buffer = bufnr })
+        vim.keymap.set("n", "<leader>hR", gitsigns.reset_buffer, { buffer = bufnr })
+        vim.keymap.set("n", "<leader>hp", gitsigns.preview_hunk, { buffer = bufnr })
+        vim.keymap.set("n", "<leader>hi", gitsigns.preview_hunk_inline, { buffer = bufnr })
 
-    vim.keymap.set("n", "<leader>hb", function()
-      gitsigns.blame_line({ full = true })
-    end, {buffer=bufnr})
+        vim.keymap.set("n", "<leader>hb", function()
+            gitsigns.blame_line({ full = true })
+        end, { buffer = bufnr })
 
-    vim.keymap.set("n", "<leader>hd", gitsigns.diffthis, {buffer=bufnr})
+        vim.keymap.set("n", "<leader>hd", gitsigns.diffthis, { buffer = bufnr })
 
-    vim.keymap.set("n", "<leader>hD", function()
-      gitsigns.diffthis("~")
-    end, {buffer=bufnr})
+        vim.keymap.set("n", "<leader>hD", function()
+            gitsigns.diffthis("~")
+        end, { buffer = bufnr })
 
-    vim.keymap.set("n", "<leader>hQ", function() gitsigns.setqflist("all") end, {buffer=bufnr})
-    vim.keymap.set("n", "<leader>hq", gitsigns.setqflist, {buffer=bufnr})
+        vim.keymap.set("n", "<leader>hQ", function() gitsigns.setqflist("all") end, { buffer = bufnr })
+        vim.keymap.set("n", "<leader>hq", gitsigns.setqflist, { buffer = bufnr })
 
-    -- Toggles
-    vim.keymap.set("n", "<leader>htb", gitsigns.toggle_current_line_blame, {buffer=bufnr})
-    vim.keymap.set("n", "<leader>htw", gitsigns.toggle_word_diff, {buffer=bufnr})
+        -- Toggles
+        vim.keymap.set("n", "<leader>htb", gitsigns.toggle_current_line_blame, { buffer = bufnr })
+        vim.keymap.set("n", "<leader>htw", gitsigns.toggle_word_diff, { buffer = bufnr })
 
-    -- Text object
-    vim.keymap.set({"o", "x"}, "ih", gitsigns.select_hunk, {buffer=bufnr})
-  end
+        -- Text object
+        vim.keymap.set({ "o", "x" }, "ih", gitsigns.select_hunk, { buffer = bufnr })
+    end
 })
 
 -- `nvim-treesitter`
@@ -117,10 +117,10 @@ vim.opt.foldlevel = 20
 require("telescope").setup()
 require("telescope").load_extension("fzf")
 local builtin = require("telescope.builtin")
-vim.keymap.set("n", "<leader>ff", builtin.find_files, {desc = "Telescope find files"})
-vim.keymap.set("n", "<leader>fg", builtin.live_grep, {desc = "Telescope live grep"})
-vim.keymap.set("n", "<leader>fb", builtin.buffers, {desc = "Telescope buffers"})
-vim.keymap.set("n", "<leader>fh", builtin.help_tags, {desc = "Telescope help tags"})
+vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
+vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
+vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
+vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
 
 -- `indent-blankline.nvim`
 require("ibl").setup({
@@ -165,7 +165,8 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>sk', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>swa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>swr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>sw', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>sw',
+        '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>sF', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>sa', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>sr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
@@ -215,7 +216,7 @@ vim.opt.relativenumber = true
 vim.opt.colorcolumn = "80"
 vim.opt.signcolumn = "yes"
 vim.opt.cursorline = true
-vim.opt.tabstop = 4  -- TODO Revise
+vim.opt.tabstop = 4 -- TODO Revise
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
