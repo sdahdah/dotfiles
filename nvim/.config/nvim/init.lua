@@ -93,19 +93,19 @@ require("gitsigns").setup({
 
 -- `nvim-treesitter`
 require("nvim-treesitter.configs").setup({
-    ensure_installed = {
-        "comment",
-        "lua",
-        "python",
-        "latex",
-        "yaml",
-        "markdown",
-        "c",
-        "cpp",
-        "haskell",
-        "rust",
-        "matlab",
-    },
+    -- ensure_installed = {
+    --     "comment",
+    --     "yaml",
+    --     "markdown",
+    --     "lua",
+    --     "python",
+    --     "latex",
+    --     "c",
+    --     "cpp",
+    --     "haskell",
+    --     "rust",
+    --     "matlab",
+    -- },
     highlight = {
         enable = true,
     },
