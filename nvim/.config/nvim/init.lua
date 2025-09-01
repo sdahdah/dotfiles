@@ -1,4 +1,4 @@
--- TODO undotree, refactoring, vimux, vim-test, luasnip, vim-dispatch, vim-projectionist
+-- TODO undotree, refactoring, luasnip, vim-dispatch, vim-projectionist
 
 require("paq") {
     "savq/paq-nvim",
@@ -13,7 +13,7 @@ require("paq") {
     "numToStr/Comment.nvim",
     "preservim/vimux",
     "mason-org/mason.nvim",
-    -- {"sakhnik/nvim-gdb", build="./install.sh"},
+    "vim-test/vim-test",
     -- {"L3MON4D3/LuaSnip", build="make install_jsregexp"},
     "neovim/nvim-lspconfig",
     -- Colorschemes
@@ -30,65 +30,59 @@ require("gitsigns").setup({
   on_attach = function(bufnr)
     local gitsigns = require("gitsigns")
 
-    local function map(mode, l, r, opts)
-      opts = opts or {}
-      opts.buffer = bufnr
-      vim.keymap.set(mode, l, r, opts)
-    end
-
     -- Navigation
-    map("n", "]c", function()
+    vim.keymap.set("n", "]c", function()
       if vim.wo.diff then
         vim.cmd.normal({"]c", bang = true})
       else
         gitsigns.nav_hunk("next")
       end
-    end)
+    end, {buffer=bufnr})
 
-    map("n", "[c", function()
+    vim.keymap.set("n", "[c", function()
       if vim.wo.diff then
         vim.cmd.normal({"[c", bang = true})
       else
         gitsigns.nav_hunk("prev")
       end
-    end)
+    end, {buffer=bufnr})
 
     -- Actions
-    map("n", "<leader>hs", gitsigns.stage_hunk)
-    map("n", "<leader>hr", gitsigns.reset_hunk)
+    vim.keymap.set("n", "<leader>hs", gitsigns.stage_hunk, {buffer=bufnr})
+    vim.keymap.set("n", "<leader>hr", gitsigns.reset_hunk, {buffer=bufnr})
 
-    map("v", "<leader>hs", function()
+    vim.keymap.set("v", "<leader>hs", function()
       gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-    end)
+    end, {buffer=bufnr})
 
-    map("v", "<leader>hr", function()
+    vim.keymap.set("v", "<leader>hr", function()
       gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-    end)
+    end, {buffer=bufnr})
 
-    map("n", "<leader>hS", gitsigns.stage_buffer)
-    map("n", "<leader>hR", gitsigns.reset_buffer)
-    map("n", "<leader>hp", gitsigns.preview_hunk)
-    map("n", "<leader>hi", gitsigns.preview_hunk_inline)
+    vim.keymap.set("n", "<leader>hS", gitsigns.stage_buffer, {buffer=bufnr})
+    vim.keymap.set("n", "<leader>hR", gitsigns.reset_buffer, {buffer=bufnr})
+    vim.keymap.set("n", "<leader>hp", gitsigns.preview_hunk, {buffer=bufnr})
+    vim.keymap.set("n", "<leader>hi", gitsigns.preview_hunk_inline, {buffer=bufnr})
 
-    map("n", "<leader>hb", function()
+    vim.keymap.set("n", "<leader>hb", function()
       gitsigns.blame_line({ full = true })
-    end)
+    end, {buffer=bufnr})
 
-    map("n", "<leader>hd", gitsigns.diffthis)
+    vim.keymap.set("n", "<leader>hd", gitsigns.diffthis, {buffer=bufnr})
 
-    map("n", "<leader>hD", function()
+    vim.keymap.set("n", "<leader>hD", function()
       gitsigns.diffthis("~")
-    end)
+    end, {buffer=bufnr})
 
-    map("n", "<leader>hQ", function() gitsigns.setqflist("all") end)
-    map("n", "<leader>hq", gitsigns.setqflist)
+    vim.keymap.set("n", "<leader>hQ", function() gitsigns.setqflist("all") end, {buffer=bufnr})
+    vim.keymap.set("n", "<leader>hq", gitsigns.setqflist, {buffer=bufnr})
 
     -- Toggles
-    map("n", "<leader>htb", gitsigns.toggle_current_line_blame)
-    map("n", "<leader>htw", gitsigns.toggle_word_diff)
+    vim.keymap.set("n", "<leader>htb", gitsigns.toggle_current_line_blame, {buffer=bufnr})
+    vim.keymap.set("n", "<leader>htw", gitsigns.toggle_word_diff, {buffer=bufnr})
 
     -- Text object
-    map({"o", "x"}, "ih", gitsigns.select_hunk)
+    vim.keymap.set({"o", "x"}, "ih", gitsigns.select_hunk, {buffer=bufnr})
   end
 })
 
@@ -100,7 +94,7 @@ require("nvim-treesitter.configs").setup({
     incremental_selection = {
         enable = true,
         keymaps = {
-            init_selection = "<Leader>i",
+            init_selection = "<leader>i",
             scope_incremental = "<CR>",
             node_incremental = "<TAB>",
             node_decremental = "<S-TAB>",
@@ -111,9 +105,13 @@ require("nvim-treesitter.configs").setup({
         -- disable = {"python"},
     },
 })
+-- Use treesitter for folding
 vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- Prevent folds closing by default
 vim.opt.foldenable = false
+-- Prevent all inner folds closing when outer is closed
+vim.opt.foldlevel = 20
 
 -- `telescope.nvim`
 require("telescope").setup()
@@ -138,37 +136,40 @@ require("ibl").setup({
 -- `Comment.nvim`
 require("Comment").setup()
 
--- `nvim.gdb`
--- `<leader>dd` GDB, `<leader>dl` LLDB, `<leader>dp` PDB, `<leader>db` BASH
--- vim.g.nvimgdb_disable_start_keymaps = 1
-
 -- `LuaSnip`
 
 -- `mason.nvim`
 require("mason").setup()
 
+-- `vim-test/vim-test`
+vim.keymap.set("n", "<leader>tf", "<cmd>TestFile<CR>")
+vim.keymap.set("n", "<leader>tl", "<cmd>TestLast<CR>")
+vim.keymap.set("n", "<leader>tn", "<cmd>TestNearest<CR>")
+vim.keymap.set("n", "<leader>ts", "<cmd>TestSuite<CR>")
+vim.keymap.set("n", "<leader>tv", "<cmd>TestVisit<CR>")
+
 -- `neovim/nvim-lspconfig`
 local opts = { noremap = true, silent = true }
-vim.api.nvim_set_keymap('n', '<Leader>se', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+vim.api.nvim_set_keymap('n', '<leader>se', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-vim.api.nvim_set_keymap('n', '<Leader>sq', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+vim.api.nvim_set_keymap('n', '<leader>sq', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 
 local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>swa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>swr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>swl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>sD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>sca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>sr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>sf', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>sD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>sd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>si', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>sR', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>sK', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>sk', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>swa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>swr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>sw', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>sF', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>sa', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>sr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>sf', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
 end
 
 local handlers = {
@@ -214,7 +215,7 @@ vim.opt.relativenumber = true
 vim.opt.colorcolumn = "80"
 vim.opt.signcolumn = "yes"
 vim.opt.cursorline = true
-vim.opt.tabstop = 4
+vim.opt.tabstop = 4  -- TODO Revise
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
@@ -230,4 +231,4 @@ vim.opt.showbreak = "↳ "
 vim.opt.wrap = false
 vim.opt.linebreak = true
 vim.opt.termguicolors = true
-vim.cmd.colorscheme "melange"
+vim.cmd.colorscheme("melange")
