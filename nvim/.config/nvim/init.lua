@@ -143,7 +143,7 @@ lspconfig.lua_ls.setup({
                     "vim",
                     "require"
                 },
-                disable = { "missing-fields", "assign-type-mismatch" },
+                disable = { "missing-fields", "param-type-mismatch" },
             },
             workspace = {
                 library = vim.api.nvim_get_runtime_file("", true),
@@ -160,8 +160,15 @@ lspconfig.lua_ls.setup({
 -- omnifunc (insert mode CTRL-X CTRL-O)
 -- tagfunc (CTRL-], CTRL-W ], CTRL-W })
 -- formatexpr (gq, bypass with gw)
--- normal mode: K, grr, gra, grn, gri, grt, gO
--- insert mode: CTRL-S
+--
+-- K hover
+-- grr references
+-- gra code_action
+-- grn rename
+-- gri implementation
+-- grt type_definition (in later version of nvim)
+-- gO document_symbol
+-- i_CTRL-S signature_help
 --
 vim.keymap.set("n", "]e",
     function() vim.diagnostic.jump({ count = 1, float = true }) end,
