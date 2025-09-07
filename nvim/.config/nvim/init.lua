@@ -1,5 +1,5 @@
 -- TODO undotree, refactoring, luasnip, vim-dispatch, vim-projectionist
--- "vim-test/vim-test", "tpope/vim-sleuth", {"L3MON4D3/LuaSnip", build="make install_jsregexp"},
+-- "vim-test/vim-test", {"L3MON4D3/LuaSnip", build="make install_jsregexp"},
 
 require("paq") {
     "savq/paq-nvim",
@@ -17,6 +17,7 @@ require("paq") {
     "neovim/nvim-lspconfig",
     -- No setup
     "tpope/vim-fugitive",
+    "tpope/vim-sleuth",
     "preservim/vimux",
     -- Colorschemes
     "fenetikm/falcon",
