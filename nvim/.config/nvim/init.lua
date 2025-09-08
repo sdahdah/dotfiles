@@ -1,5 +1,4 @@
--- TODO undotree, refactoring, luasnip, vim-dispatch, vim-projectionist
--- "vim-test/vim-test", {"L3MON4D3/LuaSnip", build="make install_jsregexp"},
+-- TODO undotree, refactoring, vim-dispatch, vim-projectionist vim-test
 
 require("paq") {
     "savq/paq-nvim",
@@ -133,7 +132,13 @@ require("Comment").setup()
 require("mason").setup()
 
 local lspconfig = require("lspconfig")
+
+local on_attach = function(client, bufnr)
+    vim.lsp.completion.enable(true, client.id, bufnr, {})
+end
+
 lspconfig.lua_ls.setup({
+    on_attach = on_attach,
     settings = {
         Lua = {
             runtime = {
@@ -155,6 +160,9 @@ lspconfig.lua_ls.setup({
         },
     },
 })
+
+-- Set completion options
+vim.opt.completeopt = "menuone,noselect,popup"
 
 -- See `:help lsp-defaults` for default LSP mappings
 --
