@@ -1,4 +1,4 @@
--- TODO undotree, refactoring, vim-dispatch, vim-projectionist vim-test
+-- TODO undotree, refactoring, vim-dispatch, vim-projectionist, docker
 
 require("paq") {
     "savq/paq-nvim",
@@ -11,6 +11,7 @@ require("paq") {
     { "nvim-treesitter/nvim-treesitter",          build = ":TSUpdate" },
     "nvim-telescope/telescope.nvim",
     "lukas-reineke/indent-blankline.nvim",
+    "vim-test/vim-test",
     "numToStr/Comment.nvim",
     "mason-org/mason.nvim",
     "neovim/nvim-lspconfig",
@@ -126,6 +127,14 @@ require("ibl").setup({
         enabled = false,
     },
 })
+
+-- vim-test
+vim.g["test#strategy"] = "vimux" -- dispatch, dispatch_background, or vimux
+vim.keymap.set("n", "<leader>tn", "<CMD>TestNearest<CR>", { desc = "Test nearest" })
+vim.keymap.set("n", "<leader>tf", "<CMD>TestFile<CR>", { desc = "Test file" })
+vim.keymap.set("n", "<leader>ts", "<CMD>TestSuite<CR>", { desc = "Test suite" })
+vim.keymap.set("n", "<leader>tl", "<CMD>TestLast<CR>", { desc = "Test last" })
+vim.keymap.set("n", "<leader>tv", "<CMD>TestVisit<CR>", { desc = "Visit test" })
 
 require("Comment").setup()
 
