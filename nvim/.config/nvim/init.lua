@@ -14,13 +14,13 @@ require("paq") {
     "lukas-reineke/indent-blankline.nvim",
     "vim-test/vim-test",
     "tpope/vim-dispatch",
+    "tpope/vim-projectionist",
     "numToStr/Comment.nvim",
     "mason-org/mason.nvim",
     "neovim/nvim-lspconfig",
     -- No setup
     "tpope/vim-fugitive",
     "tpope/vim-sleuth",
-    "tpope/vim-projectionist",
     -- Colorschemes
     "fenetikm/falcon",
     "savq/melange-nvim",
@@ -139,7 +139,10 @@ vim.keymap.set("n", "<leader>tl", "<CMD>TestLast<CR>", { desc = "Test last" })
 vim.keymap.set("n", "<leader>tv", "<CMD>TestVisit<CR>", { desc = "Visit test" })
 
 -- vim-dispatch
-vim.g["dispatch_no_maps"] = 1
+vim.dispatch_no_maps = 1
+
+-- vim-projectionist
+vim.g.projectionist_heuristics = {}
 
 require("Comment").setup()
 
@@ -252,5 +255,5 @@ if init_local_loaded then
 end
 -- Set defaults if local config not loaded or used
 if not init_local_run then
-    vim.g["projectionist_heuristics"] = {}
+    -- TODO
 end
