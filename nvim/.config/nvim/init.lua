@@ -1,4 +1,4 @@
--- TODO undotree, refactoring, vim-dispatch, vim-projectionist, docker
+-- TODO undotree, refactoring, vim-dispatch (?), vim-projectionist (?, a.vim?), docker, cmake
 
 require("paq") {
     "savq/paq-nvim",
@@ -238,3 +238,14 @@ vim.opt.linebreak = true
 vim.opt.termguicolors = true
 vim.opt.background = "dark"
 vim.cmd.colorscheme("melange")
+
+-- Load and run local config
+local init_local_loaded, init_local = pcall(require, "init_local")
+local init_local_run = false
+if init_local_loaded then
+    init_local_run = init_local.run()
+end
+-- Set defaults if local config not loaded or used
+if not init_local_run then
+    print("TODO set defaults")
+end
