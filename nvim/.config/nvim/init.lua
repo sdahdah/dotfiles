@@ -1,4 +1,5 @@
--- TODO undotree, refactoring, vim-dispatch (?), vim-projectionist (?, a.vim?), docker, cmake
+-- TODO undotree, refactoring, vim-projectionist (?, a.vim?), docker, cmake
+-- "preservim/vimux",
 
 require("paq") {
     "savq/paq-nvim",
@@ -12,13 +13,14 @@ require("paq") {
     "nvim-telescope/telescope.nvim",
     "lukas-reineke/indent-blankline.nvim",
     "vim-test/vim-test",
+    "tpope/vim-dispatch",
     "numToStr/Comment.nvim",
     "mason-org/mason.nvim",
     "neovim/nvim-lspconfig",
     -- No setup
     "tpope/vim-fugitive",
     "tpope/vim-sleuth",
-    "preservim/vimux",
+    "tpope/vim-projectionist",
     -- Colorschemes
     "fenetikm/falcon",
     "savq/melange-nvim",
@@ -129,12 +131,15 @@ require("ibl").setup({
 })
 
 -- vim-test
-vim.g["test#strategy"] = "vimux" -- dispatch, dispatch_background, or vimux
+vim.g["test#strategy"] = "dispatch"
 vim.keymap.set("n", "<leader>tn", "<CMD>TestNearest<CR>", { desc = "Test nearest" })
 vim.keymap.set("n", "<leader>tf", "<CMD>TestFile<CR>", { desc = "Test file" })
 vim.keymap.set("n", "<leader>ts", "<CMD>TestSuite<CR>", { desc = "Test suite" })
 vim.keymap.set("n", "<leader>tl", "<CMD>TestLast<CR>", { desc = "Test last" })
 vim.keymap.set("n", "<leader>tv", "<CMD>TestVisit<CR>", { desc = "Visit test" })
+
+-- vim-dispatch
+vim.g["dispatch_no_maps"] = 1
 
 require("Comment").setup()
 
@@ -247,5 +252,5 @@ if init_local_loaded then
 end
 -- Set defaults if local config not loaded or used
 if not init_local_run then
-    print("TODO set defaults")
+    vim.g["projectionist_heuristics"] = {}
 end

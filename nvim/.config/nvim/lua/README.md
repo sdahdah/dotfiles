@@ -8,7 +8,9 @@ local init_local = {}
 
 function init_local.run()
     local cwd = vim.fs.root(0, ".git")
-    if string.find(cwd, "xyz") then
+    if cwd == nil then
+        return false
+    elseif string.find(cwd, "xyz") then
         return true
     else
         return false
