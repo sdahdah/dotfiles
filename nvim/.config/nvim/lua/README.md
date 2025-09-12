@@ -7,7 +7,12 @@ where `init_local.run()` returns `false` if no local configuration was done.
 local init_local = {}
 
 function init_local.run()
-    return true
+    local cwd = vim.fs.root(0, ".git")
+    if string.find(cwd, "xyz") then
+        return true
+    else
+        return false
+    end
 end
 
 return init_local
