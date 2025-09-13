@@ -20,17 +20,18 @@ require("paq") {
     -- No setup
     "tpope/vim-fugitive",
     "tpope/vim-sleuth",
+    "tpope/vim-surround",
+    "tpope/vim-repeat",
+    "tpope/vim-eunuch",
     -- Colorschemes
     "fenetikm/falcon",
     "savq/melange-nvim",
     -- Under consideration
     -- "mfussenegger/nvim-dap",
     -- "preservim/vimux",
-    -- "tpope/vim-surround",
-    -- "tpope/vim-repeat",
-    -- "tpope/vim-eunuch",  -- sudo edit and write
     -- "liuchengxu/vista.vim",
     -- "danymat/neogen",
+    -- "tpope/vim-rsi",
 }
 
 
