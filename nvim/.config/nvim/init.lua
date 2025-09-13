@@ -32,7 +32,7 @@ require("paq") {
     -- "liuchengxu/vista.vim",
     -- "danymat/neogen",
     -- "tpope/vim-rsi",
-    -- vim-which-key or which-key.nvim or other?
+    -- "liuchengxu/vim-which-key",  -- TODO Need to map categories
 }
 
 
