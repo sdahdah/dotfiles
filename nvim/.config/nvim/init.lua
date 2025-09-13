@@ -1,5 +1,4 @@
--- TODO undotree, refactoring, vim-projectionist (?, a.vim?), docker, cmake
--- "preservim/vimux",
+-- TODO undotree, refactoring, docker, cmake, debugging
 
 require("paq") {
     "savq/paq-nvim",
@@ -24,7 +23,16 @@ require("paq") {
     -- Colorschemes
     "fenetikm/falcon",
     "savq/melange-nvim",
+    -- Under consideration
+    -- "mfussenegger/nvim-dap",
+    -- "preservim/vimux",
+    -- "tpope/vim-surround",
+    -- "tpope/vim-repeat",
+    -- "tpope/vim-eunuch",  -- sudo edit and write
+    -- "liuchengxu/vista.vim",
+    -- "danymat/neogen",
 }
+
 
 require("oil").setup()
 vim.keymap.set("n", "-",
