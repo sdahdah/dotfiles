@@ -14,6 +14,7 @@ require("paq") {
     "vim-test/vim-test",
     "tpope/vim-dispatch",
     "tpope/vim-projectionist",
+    "liuchengxu/vim-which-key",
     "numToStr/Comment.nvim",
     "mason-org/mason.nvim",
     "neovim/nvim-lspconfig",
@@ -32,7 +33,6 @@ require("paq") {
     -- "liuchengxu/vista.vim",
     -- "danymat/neogen",
     -- "tpope/vim-rsi",
-    -- "liuchengxu/vim-which-key",  -- TODO Need to map categories
 }
 
 
@@ -153,6 +153,16 @@ vim.dispatch_no_maps = 1
 
 -- vim-projectionist
 vim.g.projectionist_heuristics = {}
+
+-- liuchengxu/vim-which-key
+vim.g.which_key_map = {
+    f = {
+        name = "+telescope",  -- TODO Fill in others and change format to match plugin example (live-grep etc...)
+    },
+}
+vim.keymap.set("n", "<leader>?", "<CMD>WhichKey '\\'<CR>", { desc = "Which key?" })
+vim.keymap.set("v", "<leader>?", "<CMD>WhichKeyVisual '\\'<CR>", { desc = "Which key visual?" })
+vim.fn["which_key#register"]("\\", vim.g.which_key_map)
 
 require("Comment").setup()
 
