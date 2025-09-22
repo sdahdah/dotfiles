@@ -12,13 +12,12 @@ require("paq") {
     "nvim-telescope/telescope.nvim",
     "lukas-reineke/indent-blankline.nvim",
     "vim-test/vim-test",
-    "tpope/vim-dispatch",
-    "tpope/vim-projectionist",
     "liuchengxu/vim-which-key",
     "numToStr/Comment.nvim",
     "mason-org/mason.nvim",
     "neovim/nvim-lspconfig",
     -- No setup
+    "preservim/vimux",
     "tpope/vim-fugitive",
     "tpope/vim-sleuth",
     "tpope/vim-surround",
@@ -29,10 +28,11 @@ require("paq") {
     "savq/melange-nvim",
     -- Under consideration
     -- "mfussenegger/nvim-dap",
-    -- "preservim/vimux",
     -- "liuchengxu/vista.vim",
     -- "danymat/neogen",
     -- "tpope/vim-rsi",
+    -- "tpope/vim-dispatch",
+    -- "tpope/vim-projectionist",
 }
 
 
@@ -141,18 +141,12 @@ require("ibl").setup({
 })
 
 -- vim-test
-vim.g["test#strategy"] = "dispatch"
+vim.g["test#strategy"] = "vimux"
 vim.keymap.set("n", "<leader>tn", "<CMD>TestNearest<CR>", { desc = "Test nearest" })
 vim.keymap.set("n", "<leader>tf", "<CMD>TestFile<CR>", { desc = "Test file" })
 vim.keymap.set("n", "<leader>ts", "<CMD>TestSuite<CR>", { desc = "Test suite" })
 vim.keymap.set("n", "<leader>tl", "<CMD>TestLast<CR>", { desc = "Test last" })
 vim.keymap.set("n", "<leader>tv", "<CMD>TestVisit<CR>", { desc = "Visit test" })
-
--- vim-dispatch
-vim.dispatch_no_maps = 1
-
--- vim-projectionist
-vim.g.projectionist_heuristics = {}
 
 -- liuchengxu/vim-which-key
 vim.g.which_key_map = {
