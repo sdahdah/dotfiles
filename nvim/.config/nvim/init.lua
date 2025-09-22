@@ -168,13 +168,11 @@ require("Comment").setup()
 
 require("mason").setup()
 
-local lspconfig = require("lspconfig")
-
 local on_attach = function(client, bufnr)
     vim.lsp.completion.enable(true, client.id, bufnr, {})
 end
 
-lspconfig.lua_ls.setup({
+vim.lsp.config("lua_ls", {
     on_attach = on_attach,
     settings = {
         Lua = {
@@ -197,6 +195,7 @@ lspconfig.lua_ls.setup({
         },
     },
 })
+vim.lsp.enable("lua_ls")
 
 -- Set completion options
 vim.opt.completeopt = "menuone,noselect,popup"
