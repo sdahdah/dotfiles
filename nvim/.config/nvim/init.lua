@@ -12,12 +12,12 @@ require("paq") {
     "nvim-telescope/telescope.nvim",
     "lukas-reineke/indent-blankline.nvim",
     "vim-test/vim-test",
+    "preservim/vimux",
     "liuchengxu/vim-which-key",
     "numToStr/Comment.nvim",
     "mason-org/mason.nvim",
     "neovim/nvim-lspconfig",
     -- No setup
-    "preservim/vimux",
     "tpope/vim-fugitive",
     "tpope/vim-sleuth",
     "tpope/vim-surround",
@@ -151,7 +151,7 @@ vim.keymap.set("n", "<leader>tv", "<CMD>TestVisit<CR>", { desc = "Visit test" })
 -- liuchengxu/vim-which-key
 vim.g.which_key_map = {
     f = {
-        name = "+telescope",  -- TODO Fill in others and change format to match plugin example (live-grep etc...)
+        name = "+telescope", -- TODO Fill in others and change format to match plugin example (live-grep etc...)
     },
 }
 vim.keymap.set("n", "<leader>?", "<CMD>WhichKey '\\'<CR>", { desc = "Which key?" })
@@ -162,12 +162,14 @@ require("Comment").setup()
 
 require("mason").setup()
 
-local on_attach = function(client, bufnr)
-    vim.lsp.completion.enable(true, client.id, bufnr, {})
-end
+vim.api.nvim_create_autocmd('LspAttach', {
+    callback = function(ev)
+        vim.lsp.completion.enable(true, ev.data.client_id, ev.buf, {})
+        -- vim.lsp.completion.enable(true, ev.data.client_id, 0, {})
+    end,
+})
 
 vim.lsp.config("lua_ls", {
-    on_attach = on_attach,
     settings = {
         Lua = {
             runtime = {
@@ -190,6 +192,57 @@ vim.lsp.config("lua_ls", {
     },
 })
 vim.lsp.enable("lua_ls")
+
+vim.lsp.config("pylsp", {
+    settings = {
+        pylsp = {
+            plugins = {
+                rope = {
+                    enabled = true,
+                },
+                pyflakes = {
+                    enabled = false,
+                },
+                mccabe = {
+                    enabled = false,
+                },
+                pycodestyle = {
+                    enabled = false,
+                },
+                pydocstyle = {
+                    enabled = false,
+                },
+                autopep8 = {
+                    enabled = false,
+                },
+                yapf = {
+                    enabled = false,
+                },
+                flake8 = {
+                    enabled = false,
+                },
+                pylint = {
+                    enabled = false,
+                },
+                -- pylsp_mypy = {
+                --     enabled = true,
+                --     live_mode = false,
+                --     dmypy = true,
+                -- },
+                -- pyls_isort = {
+                --     enabled = true,
+                -- },
+                ruff = {
+                    enabled = true,
+                },
+                -- pyls_memestra = {
+                --     enabled = false,
+                -- },
+            },
+        },
+    },
+})
+vim.lsp.enable("pylsp")
 
 -- Set completion options
 vim.opt.completeopt = "menuone,noselect,popup"
@@ -258,7 +311,7 @@ vim.opt.linebreak = true
 -- Colors
 vim.opt.termguicolors = true
 vim.opt.background = "dark"
-vim.cmd.colorscheme("melange")
+vim.cmd.colorscheme("falcon")
 
 -- Load and run local config
 local init_local_loaded, init_local = pcall(require, "init_local")
@@ -270,3 +323,10 @@ end
 if not init_local_run then
     -- TODO
 end
+
+-- Treat FlatBuffers as CPP for highlighting (close enough)
+vim.filetype.add({
+    extension = {
+        fbs = 'cpp'
+    }
+})
