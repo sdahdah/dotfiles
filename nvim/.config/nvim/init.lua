@@ -1,4 +1,4 @@
--- TODO undotree, refactoring, docker, cmake, debugging
+-- TODO undotree, refactoring
 
 require("paq") {
     "savq/paq-nvim",
@@ -19,6 +19,7 @@ require("paq") {
     "numToStr/Comment.nvim",
     "mason-org/mason.nvim",
     "nvim-neotest/neotest",
+    "mfussenegger/nvim-dap",
     "neovim/nvim-lspconfig",
     -- No setup
     "tpope/vim-fugitive",
@@ -32,9 +33,9 @@ require("paq") {
     -- On probation
     "preservim/vimux",
     -- Under consideration
-    -- "mfussenegger/nvim-dap",
-    -- "liuchengxu/vista.vim",
+    -- "stevearc/overseer.nvim",
     -- "danymat/neogen",
+    -- "liuchengxu/vista.vim",
     -- "tpope/vim-rsi",
     -- "tpope/vim-dispatch",
     -- "tpope/vim-projectionist",
