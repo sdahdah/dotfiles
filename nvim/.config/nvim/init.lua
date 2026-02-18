@@ -13,8 +13,9 @@ require("paq") {
     "lukas-reineke/indent-blankline.nvim",
     "vim-test/vim-test",
     "preservim/vimux",
+    {"f3fora/nvim-texlabconfig", build = "go build"},
     "liuchengxu/vim-which-key",
-    "numToStr/Comment.nvim",
+    "numToStr/Comment.nvim",  -- TODO Needed still?
     "mason-org/mason.nvim",
     "neovim/nvim-lspconfig",
     -- No setup
@@ -148,6 +149,8 @@ vim.keymap.set("n", "<leader>ts", "<CMD>TestSuite<CR>", { desc = "Test suite" })
 vim.keymap.set("n", "<leader>tl", "<CMD>TestLast<CR>", { desc = "Test last" })
 vim.keymap.set("n", "<leader>tv", "<CMD>TestVisit<CR>", { desc = "Visit test" })
 
+require("texlabconfig").setup()
+
 -- liuchengxu/vim-which-key
 vim.g.which_key_map = {
     f = {
@@ -243,6 +246,61 @@ vim.lsp.config("pylsp", {
     },
 })
 vim.lsp.enable("pylsp")
+
+local texexecutable = 'zathura'
+
+local texargs = {
+    '--synctex-editor-command',
+    [[~/.local/share/nvim/lazy/nvim-texlabconfig/nvim-texlabconfig -server ]] ..
+    vim.api.nvim_get_vvar('servername') .. [[ -file '%%%{input}' -line %%%{line}]],
+    '--synctex-forward',
+    '%l:1:%f',
+    '%p',
+}
+
+vim.lsp.config("texlab", {
+    settings = {
+        texlab = {
+            bibtexFormatter = "texlab",
+            build = {
+                executable = "latexmk",
+                args = {
+                    -- "-bibtex",
+                    -- "-pdflatex",
+                    -- "-lualatex",
+                    "-pdf",
+                    "-interaction=nonstopmode",
+                    "-synctex=1",
+                    "--shell-escape",
+                    "-pv",
+                    "%f",
+                },
+                forwardSearchAfter = false,
+                onSave = true,
+            },
+            chktex = {
+                onOpenAndSave = true,
+            },
+            diagnosticsDelay = 300,
+            diagnostics = {
+                ignoredPatterns = { "You should not use punctuation in front of quotes" },
+            },
+            formatterLineLength = 80,
+            forwardSearch = {
+                executable = texexecutable,
+                args = texargs,
+            },
+            latexFormatter = "latexindent",
+            latexindent = {
+                modifyLineBreaks = false,
+            }
+        },
+    },
+})
+vim.lsp.enable("texlab")
+
+vim.keymap.set("n", "<leader>lb", "<cmd>LspTexlabBuild<cr>", {})
+vim.keymap.set("n", "<leader>lf", "<cmd>LspTexlabForward<cr>", {})
 
 -- Set completion options
 vim.opt.completeopt = "menuone,noselect,popup"
