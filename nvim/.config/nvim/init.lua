@@ -480,4 +480,5 @@ end
 -- Set defaults if local config not loaded or used
 if not init_local_run then
     vim.lsp.config("clangd", {})
+    vim.lsp.enable("clangd")
 end
