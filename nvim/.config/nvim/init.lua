@@ -20,6 +20,7 @@ require("paq") {
     "mason-org/mason.nvim",
     "nvim-neotest/neotest",
     "mfussenegger/nvim-dap",
+    "stevearc/overseer.nvim",
     "neovim/nvim-lspconfig",
     -- No setup
     "tpope/vim-fugitive",
@@ -33,14 +34,12 @@ require("paq") {
     -- On probation
     "preservim/vimux",
     -- Under consideration
-    -- "stevearc/overseer.nvim",
     -- "danymat/neogen",
     -- "liuchengxu/vista.vim",
     -- "tpope/vim-rsi",
     -- "tpope/vim-dispatch",
     -- "tpope/vim-projectionist",
 }
-
 
 require("oil").setup()
 vim.keymap.set("n", "-",
@@ -255,6 +254,21 @@ vim.keymap.set("n", "<leader>db",
 vim.keymap.set("n", "<leader>de",
     function() require("dap").set_exception_breakpoints({ "all" }) end,
     { desc = "Set exception breakpoints" })
+
+require("overseer").setup()
+
+vim.keymap.set("n", "<leader>or",
+    "<CMD>OverseerRun<CR>",
+    { desc = "Overseer run" })
+vim.keymap.set("n", "<leader>ot",
+    "<CMD>OverseerToggle<CR>",
+    { desc = "Overseer toggle" })
+vim.keymap.set("n", "<leader>oa",
+    "<CMD>OverseerTaskAction<CR>",
+    { desc = "Overseer task action" })
+vim.keymap.set("n", "<leader>os",
+    "<CMD>OverseerShell<CR>",
+    { desc = "Overseer shell" })
 
 vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(ev)
