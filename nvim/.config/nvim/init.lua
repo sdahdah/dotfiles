@@ -3,20 +3,22 @@
 require("paq") {
     "savq/paq-nvim",
     -- Dependencies
-    "nvim-lua/plenary.nvim",                                        -- `telescope.nvim`
+    "nvim-lua/plenary.nvim",                                        -- `telescope.nvim`, `neotest`
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }, -- `telescope.nvim`
+    "nvim-neotest/nvim-nio",                                        -- `neotest`
+    "nvim-neotest/neotest-python",                                  -- `neotest`
+    -- "antoinemadec/FixCursorHold.nvim",                              -- `neotest`; needed?
     -- Setup
     "stevearc/oil.nvim",
     "lewis6991/gitsigns.nvim",
     { "nvim-treesitter/nvim-treesitter",          build = ":TSUpdate" },
     "nvim-telescope/telescope.nvim",
     "lukas-reineke/indent-blankline.nvim",
-    "vim-test/vim-test",
-    "preservim/vimux",
     { "f3fora/nvim-texlabconfig", build = "go build" },
     "liuchengxu/vim-which-key",
     "numToStr/Comment.nvim",
     "mason-org/mason.nvim",
+    "nvim-neotest/neotest",
     "neovim/nvim-lspconfig",
     -- No setup
     "tpope/vim-fugitive",
@@ -27,6 +29,8 @@ require("paq") {
     -- Colorschemes
     "fenetikm/falcon",
     "savq/melange-nvim",
+    -- On probation
+    "preservim/vimux",
     -- Under consideration
     -- "mfussenegger/nvim-dap",
     -- "liuchengxu/vista.vim",
@@ -141,14 +145,6 @@ require("ibl").setup({
     },
 })
 
--- vim-test
-vim.g["test#strategy"] = "vimux"
-vim.keymap.set("n", "<leader>tn", "<CMD>TestNearest<CR>", { desc = "Test nearest" })
-vim.keymap.set("n", "<leader>tf", "<CMD>TestFile<CR>", { desc = "Test file" })
-vim.keymap.set("n", "<leader>ts", "<CMD>TestSuite<CR>", { desc = "Test suite" })
-vim.keymap.set("n", "<leader>tl", "<CMD>TestLast<CR>", { desc = "Test last" })
-vim.keymap.set("n", "<leader>tv", "<CMD>TestVisit<CR>", { desc = "Visit test" })
-
 -- liuchengxu/vim-which-key
 vim.g.which_key_map = {
     f = {
@@ -162,6 +158,62 @@ vim.fn["which_key#register"]("\\", vim.g.which_key_map)
 require("Comment").setup()
 
 require("mason").setup()
+
+require("neotest").setup({
+    adapters = {
+        require("neotest-python")({
+            dap = { justMyCode = false },
+        }),
+    },
+    highlights = {
+        adapter_name = "Title",
+        border = "VertSplit",
+        dir = "Directory",
+        expand_marker = "Normal",
+        failed = "DiagnosticError",
+        file = "Normal",
+        focused = "Underline",
+        indent = "Normal",
+        marked = "Bold",
+        namespace = "Title",
+        passed = "DiagnosticOK",
+        running = "DiagnosticInfo",
+        select_win = "Title",
+        skipped = "DiagnosticWarn",
+        target = "NeotestTarget",
+        test = "String",
+        unknown = "Normal",
+        watching = "DiagnosticWarn",
+    },
+})
+
+vim.keymap.set("n", "<leader>tr",
+    require("neotest").run.run,
+    { desc = "Run nearest test" })
+vim.keymap.set("n", "<leader>tf",
+    function() require("neotest").run.run(vim.fn.expand('%')) end,
+    { desc = "Run current file test" })
+vim.keymap.set("n", "<leader>ta",
+    function() require("neotest").run.run({ suite = true }) end,
+    { desc = "Run all tests" })
+vim.keymap.set("n", "<leader>td",
+    function() require("neotest").run.run({ strategy = "dap" }) end,
+    { desc = "Debug nearest test" })
+vim.keymap.set("n", "<leader>ts",
+    require("neotest").run.stop,
+    { desc = "Stop test" })
+vim.keymap.set("n", "<leader>th",
+    require("neotest").run.attach,
+    { desc = "Attach to nearest test" })
+vim.keymap.set("n", "<leader>to",
+    require("neotest").output.open,
+    { desc = "Show test output" })
+vim.keymap.set("n", "<leader>tp",
+    require("neotest").output_panel.toggle,
+    { desc = "Toggle output panel" })
+vim.keymap.set("n", "<leader>ts",
+    require("neotest").summary.toggle,
+    { desc = "Toggle summary" })
 
 vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(ev)
