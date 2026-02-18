@@ -216,6 +216,46 @@ vim.keymap.set("n", "<leader>ts",
     require("neotest").summary.toggle,
     { desc = "Toggle summary" })
 
+require("dap").adapters.codelldb = {
+    type = "server",
+    port = "${port}",
+    executable = {
+        command = "codelldb",
+        args = { "--port", "${port}" },
+    },
+}
+
+vim.keymap.set("n", "<leader>dt",
+    require("dap").toggle_breakpoint,
+    { desc = "Toggle breakpoint" })
+vim.keymap.set("n", "<leader>dc",
+    require("dap").continue,
+    { desc = "Continue" })
+vim.keymap.set("n", "<leader>di",
+    require("dap").step_into,
+    { desc = "Step into" })
+vim.keymap.set("n", "<leader>do",
+    require("dap").step_over,
+    { desc = "Step over" })
+vim.keymap.set("n", "<leader>du",
+    require("dap").step_out,
+    { desc = "Step out" })
+vim.keymap.set("n", "<leader>dr",
+    require("dap").repl.open,
+    { desc = "Open REPL" })
+vim.keymap.set("n", "<leader>dl",
+    require("dap").run_last,
+    { desc = "Run last" })
+vim.keymap.set("n", "<leader>dq",
+    require("dap").terminate,
+    { desc = "Terminate" })
+vim.keymap.set("n", "<leader>db",
+    require("dap").list_breakpoints,
+    { desc = "List breakpoints" })
+vim.keymap.set("n", "<leader>de",
+    function() require("dap").set_exception_breakpoints({ "all" }) end,
+    { desc = "Set exception breakpoints" })
+
 vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(ev)
         vim.lsp.completion.enable(true, ev.data.client_id, ev.buf, {})
@@ -302,6 +342,7 @@ require("texlabconfig").setup()
 
 local texexecutable = 'zathura'
 
+-- TODO Fix path
 local texargs = {
     '--synctex-editor-command',
     [[~/.local/share/nvim/lazy/nvim-texlabconfig/nvim-texlabconfig -server ]] ..
