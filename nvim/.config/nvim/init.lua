@@ -15,7 +15,6 @@ require("paq") {
     "preservim/vimux",
     {"f3fora/nvim-texlabconfig", build = "go build"},
     "liuchengxu/vim-which-key",
-    "numToStr/Comment.nvim",  -- TODO Needed still?
     "mason-org/mason.nvim",
     "neovim/nvim-lspconfig",
     -- No setup
