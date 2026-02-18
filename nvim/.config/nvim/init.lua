@@ -342,10 +342,9 @@ require("texlabconfig").setup()
 
 local texexecutable = 'zathura'
 
--- TODO Fix path
 local texargs = {
     '--synctex-editor-command',
-    [[~/.local/share/nvim/lazy/nvim-texlabconfig/nvim-texlabconfig -server ]] ..
+    require("texlabconfig").project_dir() .. [[/nvim-texlabconfig -server ]] ..
     vim.api.nvim_get_vvar('servername') .. [[ -file '%%%{input}' -line %%%{line}]],
     '--synctex-forward',
     '%l:1:%f',
