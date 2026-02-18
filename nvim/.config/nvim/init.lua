@@ -464,6 +464,13 @@ vim.opt.termguicolors = true
 vim.opt.background = "dark"
 vim.cmd.colorscheme("falcon")
 
+-- Treat FlatBuffers as CPP for highlighting (close enough)
+vim.filetype.add({
+    extension = {
+        fbs = 'cpp'
+    }
+})
+
 -- Load and run local config
 local init_local_loaded, init_local = pcall(require, "init_local")
 local init_local_run = false
@@ -472,12 +479,5 @@ if init_local_loaded then
 end
 -- Set defaults if local config not loaded or used
 if not init_local_run then
-    -- TODO
+    vim.lsp.config("clangd")
 end
-
--- Treat FlatBuffers as CPP for highlighting (close enough)
-vim.filetype.add({
-    extension = {
-        fbs = 'cpp'
-    }
-})
