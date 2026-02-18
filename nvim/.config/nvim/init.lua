@@ -13,8 +13,9 @@ require("paq") {
     "lukas-reineke/indent-blankline.nvim",
     "vim-test/vim-test",
     "preservim/vimux",
-    {"f3fora/nvim-texlabconfig", build = "go build"},
+    { "f3fora/nvim-texlabconfig", build = "go build" },
     "liuchengxu/vim-which-key",
+    "numToStr/Comment.nvim",
     "mason-org/mason.nvim",
     "neovim/nvim-lspconfig",
     -- No setup
@@ -148,8 +149,6 @@ vim.keymap.set("n", "<leader>ts", "<CMD>TestSuite<CR>", { desc = "Test suite" })
 vim.keymap.set("n", "<leader>tl", "<CMD>TestLast<CR>", { desc = "Test last" })
 vim.keymap.set("n", "<leader>tv", "<CMD>TestVisit<CR>", { desc = "Visit test" })
 
-require("texlabconfig").setup()
-
 -- liuchengxu/vim-which-key
 vim.g.which_key_map = {
     f = {
@@ -245,6 +244,8 @@ vim.lsp.config("pylsp", {
     },
 })
 vim.lsp.enable("pylsp")
+
+require("texlabconfig").setup()
 
 local texexecutable = 'zathura'
 
